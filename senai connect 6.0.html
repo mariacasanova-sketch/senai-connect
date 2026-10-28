@@ -1,0 +1,2423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENAI Connect - Sertãozinho SP</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        senai: {
+                            red: '#E30613',
+                            darkRed: '#B8000B',
+                            lightRed: '#FFF0F1',
+                            lightBg: '#F8F9FA'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+        .dark .custom-scrollbar::-webkit-scrollbar-track { background: #1e293b; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 min-h-screen flex flex-col custom-scrollbar transition-colors duration-200">
+
+    <!-- TOP NAVBAR -->
+    <header class="bg-senai-red text-white shadow-md sticky top-0 z-50 border-b-2 border-white dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
+                <div class="bg-white text-senai-red font-black px-2.5 py-1 rounded text-lg tracking-wider border-2 border-white">
+                    SENAI
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-extrabold text-lg leading-tight tracking-tight">Connect</span>
+                    <span class="text-xs text-red-100 tracking-wider">Sertãozinho - SP</span>
+                </div>
+            </div>
+
+            <!-- SEARCH BAR (DESKTOP) -->
+            <div class="hidden md:flex flex-1 max-w-md mx-6 relative">
+                <input type="text" id="global-search" onfocus="navigateTo('search')" oninput="handleSearch(this.value)" placeholder="Buscar alunos, cursos ou projetos..." class="w-full bg-red-900/40 text-white placeholder-red-200 px-4 py-2 pl-10 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white border border-red-400/30">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-red-200 text-sm"></i>
+            </div>
+
+            <!-- NAVIGATION BUTTONS -->
+            <nav class="flex items-center space-x-1 md:space-x-1.5">
+                <button onclick="navigateTo('home')" class="nav-btn p-2 rounded-lg hover:bg-red-800/60 text-red-100 hover:text-white transition flex flex-col md:flex-row items-center md:space-x-1.5 text-xs md:text-sm font-medium">
+                    <i class="fa-solid fa-house text-base"></i>
+                    <span class="hidden md:inline">Início</span>
+                </button>
+                <button onclick="navigateTo('feed')" id="nav-feed" class="nav-btn p-2 rounded-lg hover:bg-red-800/60 text-red-100 hover:text-white transition flex flex-col md:flex-row items-center md:space-x-1.5 text-xs md:text-sm font-medium">
+                    <i class="fa-solid fa-newspaper text-base"></i>
+                    <span class="hidden md:inline">Feed</span>
+                </button>
+                <button onclick="navigateTo('search')" id="nav-search" class="nav-btn p-2 rounded-lg hover:bg-red-800/60 text-red-100 hover:text-white transition flex flex-col md:flex-row items-center md:space-x-1.5 text-xs md:text-sm font-medium">
+                    <i class="fa-solid fa-magnifying-glass text-base"></i>
+                    <span class="hidden md:inline">Buscar</span>
+                </button>
+                <button onclick="navigateTo('projects')" id="nav-projects" class="nav-btn p-2 rounded-lg hover:bg-red-800/60 text-red-100 hover:text-white transition flex flex-col md:flex-row items-center md:space-x-1.5 text-xs md:text-sm font-medium">
+                    <i class="fa-solid fa-diagram-project text-base"></i>
+                    <span class="hidden md:inline">Projetos</span>
+                </button>
+                <button onclick="navigateTo('communities')" id="nav-communities" class="nav-btn p-2 rounded-lg hover:bg-red-800/60 text-red-100 hover:text-white transition flex flex-col md:flex-row items-center md:space-x-1.5 text-xs md:text-sm font-medium">
+                    <i class="fa-solid fa-users text-base"></i>
+                    <span class="hidden md:inline">Comunidades</span>
+                </button>
+                <button onclick="navigateTo('doubts')" id="nav-doubts" class="nav-btn p-2 rounded-lg hover:bg-red-800/60 text-red-100 hover:text-white transition flex flex-col md:flex-row items-center md:space-x-1.5 text-xs md:text-sm font-medium">
+                    <i class="fa-solid fa-circle-question text-base"></i>
+                    <span class="hidden md:inline">Dúvidas</span>
+                </button>
+                <button onclick="navigateTo('profile')" id="nav-profile" class="nav-btn p-2 rounded-lg hover:bg-red-800/60 text-red-100 hover:text-white transition flex flex-col md:flex-row items-center md:space-x-1.5 text-xs md:text-sm font-medium relative">
+                    <i class="fa-solid fa-user text-base"></i>
+                    <span class="hidden md:inline">Perfil</span>
+                </button>
+
+                <!-- DARK MODE TOGGLE BUTTON -->
+                <button onclick="toggleDarkMode()" id="dark-mode-toggle" class="p-2 rounded-lg hover:bg-red-800/60 text-red-100 hover:text-white transition flex items-center justify-center text-base ml-1" title="Alternar Tema Claro/Escuro">
+                    <i class="fa-solid fa-moon" id="theme-icon"></i>
+                </button>
+
+                <!-- AUTH BUTTONS -->
+                <div id="auth-buttons-container" class="pl-2 border-l border-red-400/30"></div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MOBILE SEARCH BAR -->
+    <div class="md:hidden bg-senai-red/95 px-4 pb-3">
+        <div class="relative">
+            <input type="text" id="mobile-search-input" onfocus="navigateTo('search')" oninput="handleSearch(this.value)" placeholder="Buscar no SENAI Sertãozinho..." class="w-full bg-red-900/40 text-white placeholder-red-200 px-4 py-2 pl-10 rounded-full text-xs focus:outline-none focus:ring-2 focus:ring-white border border-red-400/30">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-red-200 text-xs"></i>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6">
+
+        <!-- ==================== PAGE: HOME ==================== -->
+        <section id="page-home" class="space-y-8">
+            <div class="bg-gradient-to-r from-senai-red to-senai-darkRed text-white rounded-2xl p-6 md:p-10 shadow-lg relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-white">
+                    <i class="fa-solid fa-graduation-cap text-[240px]"></i>
+                </div>
+                <div class="relative z-10 max-w-2xl space-y-4">
+                    <span class="bg-white text-senai-red text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                        Rede Conectada • SENAI Sertãozinho
+                    </span>
+                    <h1 class="text-3xl md:text-5xl font-black leading-tight">
+                        Conecte-se com futuros profissionais da indústria!
+                    </h1>
+                    <p class="text-red-100 text-sm md:text-base leading-relaxed">
+                        Plataforma exclusiva para alunos do SENAI Sertãozinho SP. Compartilhe portfólios, crie grupos de estudo, publique projetos práticos e tire dúvidas técnicas.
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <button onclick="navigateTo('feed')" class="bg-white hover:bg-gray-100 text-senai-red font-bold px-6 py-3 rounded-xl shadow-md transition transform active:scale-95 flex items-center space-x-2">
+                            <span>Acessar Feed dos Alunos</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button onclick="openAuthModal('register')" id="btn-hero-register" class="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/30 font-semibold px-6 py-3 rounded-xl transition">
+                            Criar minha conta
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-start space-x-3 transition-colors">
+                    <div class="p-3 bg-red-50 dark:bg-red-900/30 text-senai-red dark:text-red-400 rounded-xl text-xl">
+                        <i class="fa-solid fa-diagram-project"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 dark:text-white text-base">Portfólio Prático</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-xs mt-1">Publique peças usinadas, painéis elétricos e códigos.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-start space-x-3 transition-colors">
+                    <div class="p-3 bg-red-50 dark:bg-red-900/30 text-senai-red dark:text-red-400 rounded-xl text-xl">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 dark:text-white text-base">Comunidades</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-xs mt-1">Crie grupos de estudos por área ou turma.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-start space-x-3 transition-colors">
+                    <div class="p-3 bg-red-50 dark:bg-red-900/30 text-senai-red dark:text-red-400 rounded-xl text-xl">
+                        <i class="fa-solid fa-gears"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 dark:text-white text-base">Cursos CAI</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-xs mt-1">Aprendizagem Industrial em Mecânica, Solda e Elétrica.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-start space-x-3 transition-colors">
+                    <div class="p-3 bg-red-50 dark:bg-red-900/30 text-senai-red dark:text-red-400 rounded-xl text-xl">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 dark:text-white text-base">Cursos FIC</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-xs mt-1">Especializações em IA, Redes, Cibersegurança e Data Science.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE: SEARCH / PESQUISA ==================== -->
+        <section id="page-search" class="hidden space-y-6">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 space-y-6 transition-colors">
+                <div>
+                    <h2 class="text-2xl font-black text-gray-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass text-senai-red dark:text-red-400"></i>
+                        <span>Pesquisar Perfis & Alunos</span>
+                    </h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Procure por colegas pelo nome completo, username (@exemplo) ou curso no SENAI.</p>
+                </div>
+
+                <div class="relative">
+                    <input type="text" id="page-search-input" oninput="handleSearch(this.value)" placeholder="Digite o nome, @usuario ou curso..." class="w-full p-3.5 pl-11 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl text-sm dark:text-white focus:ring-2 focus:ring-senai-red focus:outline-none">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-4 text-gray-400 text-base"></i>
+                </div>
+
+                <div id="search-results-container" class="space-y-3 pt-2">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE: FEED ==================== -->
+        <section id="page-feed" class="hidden space-y-6">
+            <!-- STORIES BAR -->
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 transition-colors">
+                <div class="flex items-center space-x-4 overflow-x-auto custom-scrollbar pb-2" id="stories-container">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <!-- LEFT SIDEBAR -->
+                <div class="lg:col-span-1 space-y-4">
+                    <div id="feed-user-summary-card" class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 text-center transition-colors"></div>
+                    <div class="bg-gradient-to-br from-senai-red to-senai-darkRed text-white p-5 rounded-2xl shadow-sm space-y-3">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-location-dot text-white"></i>
+                            <h4 class="font-bold text-sm">SENAI Sertãozinho</h4>
+                        </div>
+                        <p class="text-xs text-red-100 leading-relaxed">
+                            Escola SENAI "Ettore Zanini"<br>
+                            Av. Fioravante Magro, 230 - Conj. Hab. Dr. Walter Antônio de Pádua Becker, Sertãozinho - SP, CEP: 14177-340
+                        </p>
+                    </div>
+                </div>
+
+                <!-- MAIN FEED -->
+                <div class="lg:col-span-3 space-y-6">
+                    <div id="create-post-box" class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 transition-colors">
+                        <div class="flex space-x-3">
+                            <img id="create-post-avatar" src="https://placehold.co/100x100/E30613/FFFFFF?text=SENAI" class="w-11 h-11 rounded-full object-cover border-2 border-senai-red flex-shrink-0">
+                            <div class="flex-1 space-y-3">
+                                <textarea id="post-text" rows="3" class="w-full p-3 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-xl text-sm dark:text-white focus:ring-2 focus:ring-senai-red focus:bg-white dark:focus:bg-gray-700 focus:outline-none resize-none" placeholder="O que você está estudando ou desenvolvendo no SENAI hoje?"></textarea>
+                                <div id="post-image-preview-container" class="hidden relative rounded-xl overflow-hidden max-h-96 border border-gray-200 dark:border-gray-600 bg-black/5 flex items-center justify-center">
+                                    <img id="post-image-preview" src="" class="max-h-96 w-full object-contain">
+                                    <button onclick="removeAttachedImage()" class="absolute top-2 right-2 bg-gray-900/80 text-white w-7 h-7 rounded-full text-xs">✕</button>
+                                </div>
+                                <div class="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-700">
+                                    <label class="cursor-pointer text-gray-500 dark:text-gray-400 hover:text-senai-red dark:hover:text-red-400 flex items-center space-x-2 text-xs font-semibold bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-lg">
+                                        <i class="fa-solid fa-image text-senai-red dark:text-red-400"></i>
+                                        <span>Anexar Foto</span>
+                                        <input type="file" id="post-image-input" accept="image/*" class="hidden" onchange="handleImageSelect(event)">
+                                    </label>
+                                    <button onclick="submitNewPost()" class="bg-senai-red hover:bg-senai-darkRed text-white font-bold px-5 py-2 rounded-xl text-sm transition">Publicar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="posts-container" class="space-y-4"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE: PROJETOS ==================== -->
+        <section id="page-projects" class="hidden space-y-6">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 space-y-4 transition-colors">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100 dark:border-gray-700 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-black text-gray-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-diagram-project text-senai-red dark:text-red-400"></i>
+                            <span>Portfólio de Projetos Acadêmicos</span>
+                        </h2>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Exiba os trabalhos práticos feitos no SENAI Sertãozinho para montar seu portfólio profissional.</p>
+                    </div>
+                    <button onclick="toggleProjectForm()" class="bg-senai-red hover:bg-senai-darkRed text-white font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2 shadow">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Publicar Novo Projeto</span>
+                    </button>
+                </div>
+
+                <div id="project-form-container" class="hidden bg-red-50/50 dark:bg-gray-700/50 p-5 rounded-xl border border-red-200 dark:border-gray-600 space-y-3">
+                    <h3 class="font-bold text-gray-900 dark:text-white text-sm">Cadastrar Projeto do Portfólio</h3>
+                    <input type="text" id="project-title" placeholder="Nome do Projeto (ex: Painel Trifásico com Inversor de Frequência)" class="w-full p-2.5 bg-white dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:ring-2 focus:ring-senai-red focus:outline-none">
+                    <input type="text" id="project-techs" placeholder="Tecnologias / Ferramentas (ex: CAD, Torno CNC, Python, CLP, 5S)" class="w-full p-2.5 bg-white dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:ring-2 focus:ring-senai-red focus:outline-none">
+                    <textarea id="project-desc" rows="3" placeholder="Descreva os objetivos, o processo de construção e os resultados do projeto..." class="w-full p-3 bg-white dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:ring-2 focus:ring-senai-red focus:outline-none resize-none"></textarea>
+                    
+                    <div class="flex items-center space-x-3">
+                        <label class="cursor-pointer bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-semibold px-3 py-2 rounded-xl text-xs flex items-center space-x-2 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <i class="fa-solid fa-camera text-senai-red dark:text-red-400"></i>
+                            <span>Foto Principal do Projeto</span>
+                            <input type="file" id="project-image-input" accept="image/*" class="hidden" onchange="handleProjectImageSelect(event)">
+                        </label>
+                        <span id="project-image-filename" class="text-xs text-gray-500 dark:text-gray-400 italic">Nenhuma imagem escolhida</span>
+                    </div>
+
+                    <div class="flex justify-end space-x-2 pt-2">
+                        <button onclick="toggleProjectForm()" class="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 font-semibold rounded-xl text-xs">Cancelar</button>
+                        <button onclick="submitProject()" class="px-5 py-2 bg-senai-red hover:bg-senai-darkRed text-white font-bold rounded-xl text-xs shadow">Salvar no Portfólio</button>
+                    </div>
+                </div>
+
+                <div id="projects-list-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2"></div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE: COMUNIDADES ==================== -->
+        <section id="page-communities" class="hidden space-y-6">
+            <div id="community-main-view" class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 space-y-4 transition-colors">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100 dark:border-gray-700 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-black text-gray-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-users text-senai-red dark:text-red-400"></i>
+                            <span>Comunidades & Grupos de Estudo</span>
+                        </h2>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Entre em um grupo para ter acesso ao bate-papo exclusivo de cada área do SENAI Sertãozinho.</p>
+                    </div>
+                    <button onclick="toggleCommunityForm()" class="bg-senai-red hover:bg-senai-darkRed text-white font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2 shadow">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Criar Nova Comunidade</span>
+                    </button>
+                </div>
+
+                <div id="community-form-container" class="hidden bg-red-50/50 dark:bg-gray-700/50 p-5 rounded-xl border border-red-200 dark:border-gray-600 space-y-3">
+                    <h3 class="font-bold text-gray-900 dark:text-white text-sm">Criar Grupo de Estudos ou Área Técnica</h3>
+                    <input type="text" id="comm-name" placeholder="Nome da Comunidade (ex: Galera da Robótica & IA)" class="w-full p-2.5 bg-white dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:ring-2 focus:ring-senai-red focus:outline-none">
+                    <input type="text" id="comm-category" placeholder="Área / Cursos Alvo (ex: Mecânica, TI, Elétrica)" class="w-full p-2.5 bg-white dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:ring-2 focus:ring-senai-red focus:outline-none">
+                    <textarea id="comm-desc" rows="2" placeholder="Qual a finalidade deste grupo?" class="w-full p-3 bg-white dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:ring-2 focus:ring-senai-red focus:outline-none resize-none"></textarea>
+                    
+                    <div class="flex justify-end space-x-2 pt-2">
+                        <button onclick="toggleCommunityForm()" class="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 font-semibold rounded-xl text-xs">Cancelar</button>
+                        <button onclick="submitCommunity()" class="px-5 py-2 bg-senai-red hover:bg-senai-darkRed text-white font-bold rounded-xl text-xs shadow">Criar Grupo</button>
+                    </div>
+                </div>
+
+                <div id="communities-list-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2"></div>
+            </div>
+
+            <!-- COMMUNITY DETAILS & CHAT VIEW -->
+            <div id="community-detail-view" class="hidden bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col h-[650px] overflow-hidden transition-colors">
+                <!-- Content generated via JS -->
+            </div>
+        </section>
+
+        <!-- ==================== PAGE: DÚVIDAS ==================== -->
+        <section id="page-doubts" class="hidden space-y-6">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 space-y-4 transition-colors">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100 dark:border-gray-700 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-black text-gray-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question text-senai-red dark:text-red-400"></i>
+                            <span>Central de Dúvidas de Aula</span>
+                        </h2>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Faça perguntas sobre aulas práticas, relatórios e comandos técnicos ou responda aos colegas.</p>
+                    </div>
+                    <button onclick="toggleDoubtForm()" class="bg-senai-red hover:bg-senai-darkRed text-white font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2 shadow">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Nova Pergunta</span>
+                    </button>
+                </div>
+
+                <div id="doubt-form-container" class="hidden bg-red-50/50 dark:bg-gray-700/50 p-5 rounded-xl border border-red-200 dark:border-gray-600 space-y-3">
+                    <h3 class="font-bold text-gray-900 dark:text-white text-sm">Publicar dúvida técnica</h3>
+                    <input type="text" id="doubt-title" placeholder="Título da sua dúvida..." class="w-full p-2.5 bg-white dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:ring-2 focus:ring-senai-red focus:outline-none">
+                    <select id="doubt-course" class="w-full p-2.5 bg-white dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:ring-2 focus:ring-senai-red focus:outline-none"></select>
+                    <textarea id="doubt-body" rows="3" placeholder="Detalhes da dúvida..." class="w-full p-3 bg-white dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-600 rounded-xl text-sm focus:ring-2 focus:ring-senai-red focus:outline-none resize-none"></textarea>
+                    <div class="flex justify-end space-x-2">
+                        <button onclick="toggleDoubtForm()" class="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 font-semibold rounded-xl text-xs">Cancelar</button>
+                        <button onclick="submitDoubt()" class="px-5 py-2 bg-senai-red hover:bg-senai-darkRed text-white font-bold rounded-xl text-xs shadow">Enviar Pergunta</button>
+                    </div>
+                </div>
+
+                <div id="doubts-container" class="space-y-4 pt-2"></div>
+            </div>
+        </section>
+
+        <!-- ==================== PAGE: PERFIL ==================== -->
+        <section id="page-profile" class="hidden space-y-6">
+            <div id="profile-content-container"></div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 dark:bg-gray-950 text-gray-400 text-xs py-6 mt-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <div class="flex justify-center items-center space-x-2 text-white font-bold text-sm">
+                <span class="bg-senai-red text-white px-2 py-0.5 rounded text-xs">SENAI</span>
+                <span>Connect Sertãozinho - SP</span>
+            </div>
+            <p>Plataforma colaborativa dos estudantes do SENAI Ettore Zanini - Sertãozinho/SP.</p>
+            <p class="text-gray-300">Av. Fioravante Magro, 230 - Conj. Hab. Dr. Walter Antônio de Pádua Becker, Sertãozinho - SP, CEP: 14177-340</p>
+        </div>
+    </footer>
+
+    <!-- ==================== HIGHLIGHT MODAL ==================== -->
+    <div id="highlight-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full p-6 space-y-4 transition-colors">
+            <div class="flex justify-between items-center border-b dark:border-gray-700 pb-2">
+                <h3 class="font-bold text-base text-gray-900 dark:text-white">Novo Destaque no Perfil</h3>
+                <button onclick="closeHighlightModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Título do Destaque</label>
+                    <input type="text" id="highlight-title" placeholder="Ex: Cursos, Aulas Práticas, CNC" class="w-full p-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl text-sm dark:text-white focus:ring-2 focus:ring-senai-red focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Selecione o Story para o Destaque</label>
+                    <div id="highlight-story-selector" class="grid grid-cols-3 gap-2 max-h-48 overflow-y-auto p-1 border dark:border-gray-700 rounded-xl custom-scrollbar"></div>
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-2 pt-2">
+                <button onclick="closeHighlightModal()" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-semibold rounded-xl text-xs">Cancelar</button>
+                <button onclick="submitHighlight()" class="px-5 py-2 bg-senai-red hover:bg-senai-darkRed text-white font-bold rounded-xl text-xs shadow">Salvar Destaque</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== AUTH MODAL ==================== -->
+    <div id="auth-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden transition-colors">
+            <div class="bg-senai-red text-white px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <span class="bg-white text-senai-red font-black px-2 py-0.5 rounded text-xs">SENAI</span>
+                    <h3 id="auth-modal-title" class="font-bold text-base">Acessar a Plataforma</h3>
+                </div>
+                <button onclick="closeAuthModal()" class="text-red-200 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="p-6 overflow-y-auto custom-scrollbar space-y-4 flex-1">
+                <!-- LOGIN FORM -->
+                <form id="form-login" onsubmit="handleLoginSubmit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Nome de Usuário (@username)</label>
+                        <input type="text" id="login-username" required placeholder="@exemplo" class="w-full p-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-sm dark:text-white focus:ring-2 focus:ring-senai-red">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Senha</label>
+                        <input type="password" id="login-password" required placeholder="••••••••" class="w-full p-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-sm dark:text-white focus:ring-2 focus:ring-senai-red">
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-senai-red hover:bg-senai-darkRed text-white font-bold rounded-xl text-sm shadow-md">Entrar na minha Conta</button>
+                    <div class="text-center pt-2">
+                        <span class="text-xs text-gray-500 dark:text-gray-400">Ainda não tem conta?</span>
+                        <button type="button" onclick="switchAuthTab('register')" class="text-xs font-bold text-senai-red dark:text-red-400 hover:underline ml-1">Cadastrar-se agora</button>
+                    </div>
+                </form>
+
+                <!-- REGISTER FORM -->
+                <form id="form-register" onsubmit="handleRegisterSubmit(event)" class="hidden space-y-4">
+                    <div class="flex flex-col items-center justify-center space-y-2">
+                        <div class="relative w-20 h-20">
+                            <img id="reg-avatar-preview" src="https://placehold.co/150x150/E30613/FFFFFF?text=SENAI" class="w-20 h-20 rounded-full object-cover border-2 border-senai-red shadow-md">
+                            <label class="absolute bottom-0 right-0 bg-senai-red text-white p-1.5 rounded-full cursor-pointer hover:bg-senai-darkRed">
+                                <i class="fa-solid fa-camera text-xs"></i>
+                                <input type="file" id="reg-avatar-file" accept="image/*" class="hidden" onchange="handleAvatarSelect(event)">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Nome Completo *</label>
+                        <input type="text" id="reg-fullname" required placeholder="Ex: Lucas Silva" class="w-full p-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-sm dark:text-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Nome de Usuário (@username) *</label>
+                        <input type="text" id="reg-username" required placeholder="ex: lucassilva" class="w-full p-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-sm dark:text-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Senha *</label>
+                        <input type="password" id="reg-password" required placeholder="••••••••" class="w-full p-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-sm dark:text-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Curso no SENAI Sertãozinho *</label>
+                        <select id="reg-course" required class="w-full p-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-sm dark:text-white">
+                            <option value="">Selecione o seu curso...</option>
+                            <optgroup label="Cursos CAI — Aprendizagem Industrial">
+                                <option value="Operador de Suporte Técnico em Tecnologia da Informação">1. Operador de Suporte Técnico em Tecnologia da Informação</option>
+                                <option value="Eletricista de Manutenção Eletroeletrônica">2. Eletricista de Manutenção Eletroeletrônica</option>
+                                <option value="Eletricista Industrial">3. Eletricista Industrial</option>
+                                <option value="Mecânico de Manutenção">4. Mecânico de Manutenção</option>
+                                <option value="Mecânico de Usinagem">5. Mecânico de Usinagem</option>
+                                <option value="Soldador">6. Soldador</option>
+                                <option value="Montador de Máquinas e Equipamentos Industriais">7. Montador de Máquinas e Equipamentos Industriais</option>
+                                <option value="Operador de Processos de Transformação de Polímeros">8. Operador de Processos de Transformação de Polímeros</option>
+                            </optgroup>
+                            <optgroup label="Cursos FIC — Formação Inicial e Continuada">
+                                <option value="Administrador de Banco de Dados">1. Administrador de Banco de Dados</option>
+                                <option value="Lógica de Programação">2. Lógica de Programação</option>
+                                <option value="Tecnologia da Informação e Comunicação">3. Tecnologia da Informação e Comunicação</option>
+                                <option value="Princípios de Cibersegurança">4. Princípios de Cibersegurança</option>
+                                <option value="Banco de Dados para Data Science">5. Banco de Dados para Data Science</option>
+                                <option value="CCNA V7: Introduction to Networks">6. CCNA V7: Introduction to Networks</option>
+                                <option value="Cibersegurança na Nuvem">7. Cibersegurança na Nuvem</option>
+                                <option value="Criação de Agentes de IA">8. Criação de Agentes de IA</option>
+                                <option value="Excel Básico">9. Excel Básico</option>
+                                <option value="Ética na Inteligência Artificial">10. Ética na Inteligência Artificial</option>
+                                <option value="Acionamento Eletrônico de Máquinas Elétricas">11. Acionamento Eletrônico de Máquinas Elétricas</option>
+                                <option value="Acionamentos com Inversor de Frequência">12. Acionamentos com Inversor de Frequência</option>
+                                <option value="Ajustador Mecânico">13. Ajustador Mecânico</option>
+                                <option value="Administração da Manutenção">14. Administração da Manutenção</option>
+                                <option value="5S">15. 5S</option>
+                            </optgroup>
+                            <option value="Outro curso / Curso livre">Outro curso / Curso livre</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Duração do Curso *</label>
+                        <select id="reg-duration" required class="w-full p-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-sm dark:text-white">
+                            <option value="De 2 a 6 meses" selected>De 2 a 6 meses</option>
+                            <option value="1 ano">1 ano</option>
+                            <option value="2 anos">2 anos</option>
+                            <option value="Outra duração">Outra duração</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Interesses / Áreas Técnicas</label>
+                        <div id="interests-checkboxes-container" class="grid grid-cols-2 gap-2 max-h-36 overflow-y-auto p-2 bg-gray-50 dark:bg-gray-700/50 rounded-xl border border-gray-200 dark:border-gray-600 text-xs custom-scrollbar"></div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Biografia Resumida</label>
+                        <textarea id="reg-bio" rows="2" placeholder="Suas metas na indústria..." class="w-full p-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-sm dark:text-white resize-none"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-3 bg-senai-red hover:bg-senai-darkRed text-white font-bold rounded-xl text-sm shadow-md">Concluir Cadastro</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== EDIT PROFILE MODAL ==================== -->
+    <div id="edit-profile-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden transition-colors">
+            <div class="bg-senai-red text-white px-6 py-4 flex items-center justify-between">
+                <h3 class="font-bold text-base">Editar Meu Perfil</h3>
+                <button onclick="closeEditProfileModal()" class="text-red-200 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto custom-scrollbar space-y-4 flex-1">
+                <div class="flex flex-col items-center justify-center space-y-2">
+                    <div class="relative w-20 h-20">
+                        <img id="edit-avatar-preview" src="" class="w-20 h-20 rounded-full object-cover border-2 border-senai-red shadow-md">
+                        <label class="absolute bottom-0 right-0 bg-senai-red text-white p-1.5 rounded-full cursor-pointer hover:bg-senai-darkRed">
+                            <i class="fa-solid fa-camera text-xs"></i>
+                            <input type="file" id="edit-avatar-file" accept="image/*" class="hidden" onchange="handleEditAvatarSelect(event)">
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Nome Completo</label>
+                    <input type="text" id="edit-fullname" class="w-full p-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-sm dark:text-white">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Curso no SENAI</label>
+                    <select id="edit-course" class="w-full p-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-sm dark:text-white">
+                        <option value="">Selecione o seu curso...</option>
+                        <optgroup label="Cursos CAI — Aprendizagem Industrial">
+                            <option value="Operador de Suporte Técnico em Tecnologia da Informação">1. Operador de Suporte Técnico em Tecnologia da Informação</option>
+                            <option value="Eletricista de Manutenção Eletroeletrônica">2. Eletricista de Manutenção Eletroeletrônica</option>
+                            <option value="Eletricista Industrial">3. Eletricista Industrial</option>
+                            <option value="Mecânico de Manutenção">4. Mecânico de Manutenção</option>
+                            <option value="Mecânico de Usinagem">5. Mecânico de Usinagem</option>
+                            <option value="Soldador">6. Soldador</option>
+                            <option value="Montador de Máquinas e Equipamentos Industriais">7. Montador de Máquinas e Equipamentos Industriais</option>
+                            <option value="Operador de Processos de Transformação de Polímeros">8. Operador de Processos de Transformação de Polímeros</option>
+                        </optgroup>
+                        <optgroup label="Cursos FIC — Formação Inicial e Continuada">
+                            <option value="Administrador de Banco de Dados">1. Administrador de Banco de Dados</option>
+                            <option value="Lógica de Programação">2. Lógica de Programação</option>
+                            <option value="Tecnologia da Informação e Comunicação">3. Tecnologia da Informação e Comunicação</option>
+                            <option value="Princípios de Cibersegurança">4. Princípios de Cibersegurança</option>
+                            <option value="Banco de Dados para Data Science">5. Banco de Dados para Data Science</option>
+                            <option value="CCNA V7: Introduction to Networks">6. CCNA V7: Introduction to Networks</option>
+                            <option value="Cibersegurança na Nuvem">7. Cibersegurança na Nuvem</option>
+                            <option value="Criação de Agentes de IA">8. Criação de Agentes de IA</option>
+                            <option value="Excel Básico">9. Excel Básico</option>
+                            <option value="Ética na Inteligência Artificial">10. Ética na Inteligência Artificial</option>
+                            <option value="Acionamento Eletrônico de Máquinas Elétricas">11. Acionamento Eletrônico de Máquinas Elétricas</option>
+                            <option value="Acionamentos com Inversor de Frequência">12. Acionamentos com Inversor de Frequência</option>
+                            <option value="Ajustador Mecânico">13. Ajustador Mecânico</option>
+                            <option value="Administração da Manutenção">14. Administração da Manutenção</option>
+                            <option value="5S">15. 5S</option>
+                        </optgroup>
+                        <option value="Outro curso / Curso livre">Outro curso / Curso livre</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Duração do Curso</label>
+                    <select id="edit-duration" class="w-full p-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-sm dark:text-white">
+                        <option value="De 2 a 6 meses">De 2 a 6 meses</option>
+                        <option value="1 ano">1 ano</option>
+                        <option value="2 anos">2 anos</option>
+                        <option value="Outra duração">Outra duração</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Biografia</label>
+                    <textarea id="edit-bio" rows="3" class="w-full p-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-xl text-sm dark:text-white resize-none"></textarea>
+                </div>
+
+                <div class="flex justify-end space-x-2 pt-2">
+                    <button type="button" onclick="closeEditProfileModal()" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-semibold rounded-xl text-xs">Cancelar</button>
+                    <button type="button" onclick="saveProfileChanges()" class="px-5 py-2 bg-senai-red hover:bg-senai-darkRed text-white font-bold rounded-xl text-xs shadow">Salvar Alterações</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CREATE STORY MODAL ==================== -->
+    <div id="story-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full p-6 space-y-4 transition-colors">
+            <div class="flex justify-between items-center border-b dark:border-gray-700 pb-2">
+                <h3 class="font-bold text-base text-gray-900 dark:text-white">Postar Novo Story</h3>
+                <button onclick="closeStoryModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="space-y-3">
+                <textarea id="story-text" rows="3" placeholder="O que você está fazendo agora no SENAI?" class="w-full p-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl text-sm dark:text-white focus:ring-2 focus:ring-senai-red focus:outline-none resize-none"></textarea>
+                
+                <div class="flex items-center space-x-3">
+                    <label class="cursor-pointer bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-semibold px-3 py-2 rounded-xl text-xs flex items-center space-x-2 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <i class="fa-solid fa-camera text-senai-red dark:text-red-400"></i>
+                        <span>Foto do Story</span>
+                        <input type="file" id="story-image-input" accept="image/*" class="hidden" onchange="handleStoryImageSelect(event)">
+                    </label>
+                    <span id="story-image-filename" class="text-xs text-gray-500 dark:text-gray-400 italic">Nenhuma imagem</span>
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-2 pt-2">
+                <button onclick="closeStoryModal()" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-semibold rounded-xl text-xs">Cancelar</button>
+                <button onclick="submitStory()" class="px-5 py-2 bg-senai-red hover:bg-senai-darkRed text-white font-bold rounded-xl text-xs shadow">Postar Story</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== VIEW STORY MODAL ==================== -->
+    <div id="view-story-modal" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 hidden">
+        <div class="relative max-w-sm w-full bg-gray-900 rounded-2xl overflow-hidden flex flex-col h-[500px] border border-gray-800">
+            <div class="absolute top-2 left-2 right-2 z-20 flex space-x-1">
+                <div class="h-1 bg-white/40 flex-1 rounded overflow-hidden">
+                    <div id="story-progress-fill" class="h-full bg-white w-0 transition-all duration-100"></div>
+                </div>
+            </div>
+
+            <div class="p-4 pt-5 flex items-center justify-between relative z-10 bg-gradient-to-b from-black/80 to-transparent">
+                <div class="flex items-center space-x-3">
+                    <img id="view-story-avatar" src="" class="w-9 h-9 rounded-full object-cover border-2 border-senai-red">
+                    <div>
+                        <h4 id="view-story-author" class="text-white text-xs font-bold leading-tight"></h4>
+                        <span id="view-story-time" class="text-gray-300 text-[10px]"></span>
+                    </div>
+                </div>
+                <button onclick="closeViewStoryModal()" class="text-white hover:text-gray-300 text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="flex-1 relative flex items-center justify-center p-4 overflow-hidden">
+                <img id="view-story-image" src="" class="absolute inset-0 w-full h-full object-contain hidden">
+                <div id="view-story-overlay" class="absolute inset-0 bg-black/40 hidden"></div>
+                <p id="view-story-text" class="relative z-10 text-white text-center font-medium text-base px-4"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const ALL_INTERESTS = [
+            "Suporte Técnico & Hardware", "Eletroeletrônica & Circuitos", "Elétrica Industrial",
+            "Manutenção Mecânica", "Torno & Usinagem CNC", "Soldagem Industrial", "Montagem de Máquinas",
+            "Polímeros & Plásticos", "Banco de Dados & SQL", "Lógica de Programação", "Redes CCNA Cisco",
+            "Cibersegurança & Nuvem", "Data Science & Analytics", "Agentes de IA & Python", "Excel & Planilhas",
+            "Inversores de Frequência", "Máquinas Elétricas", "Ajustagem Mecânica", "Administração da Manutenção", "Metodologia 5S & Qualidade"
+        ];
+
+        const SEED_USERS = [
+            { id: "u1", fullname: "Carlos Eduardo Costa", username: "carloscai", password: "123", course: "Mecânico de Usinagem", duration: "2 anos", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80", bio: "Estudante do CAI de Usinagem no SENAI Sertãozinho.", interests: ["Torno & Usinagem CNC", "Manutenção Mecânica"], followers: ["u2"], following: [] },
+            { id: "u2", fullname: "Mariana Gonçalves", username: "marianag", password: "123", course: "Criação de Agentes de IA", duration: "De 2 a 6 meses", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80", bio: "Cursando FIC no SENAI.", interests: ["Agentes de IA & Python", "Data Science & Analytics"], followers: [], following: ["u1"] }
+        ];
+
+        const SEED_STORIES = [
+            { id: "s1", userId: "u1", text: "Testando nova ferramenta no torno CNC!", image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80", createdAt: new Date().toISOString() },
+            { id: "s2", userId: "u2", text: "Achei incrível a aula de IA hoje 🤖⚡", image: "", createdAt: new Date().toISOString() }
+        ];
+
+        const SEED_HIGHLIGHTS = [];
+
+        const SEED_COMMUNITIES = [
+            {
+                id: "comm_1",
+                name: "Galera do Torno & Usinagem CNC",
+                category: "Metalmecânica",
+                desc: "Grupo de estudos para trocar programas CNC, macetes de corte e desenhos técnicos.",
+                members: ["u1", "u2"],
+                messages: [
+                    { id: "cm_1", userId: "u1", text: "Fala pessoal! Alguém tem o modelo de parâmetro para usinagem em Aço 1045?", createdAt: new Date().toISOString() },
+                    { id: "cm_2", userId: "u2", text: "Oi Carlos! No livro de Ajustagem tem a tabela de Vc recomendada. Dá uma olhada!", createdAt: new Date().toISOString() }
+                ]
+            },
+            {
+                id: "comm_2",
+                name: "Entusiastas de IA & Python SENAI",
+                category: "Tecnologia da Informação",
+                desc: "Comunidade focada em automação, scripts Python e criação de Agentes de IA.",
+                members: ["u2"],
+                messages: [
+                    { id: "cm_3", userId: "u2", text: "Bem-vindos ao grupo de IA do SENAI Sertãozinho!", createdAt: new Date().toISOString() }
+                ]
+            }
+        ];
+
+        const SEED_PROJECTS = [
+            {
+                id: "proj_1",
+                userId: "u1",
+                title: "Eixo Entalhado Usinado em Torno CNC",
+                techs: "Torno CNC, CAD/CAM, Ferramentas de Corte",
+                desc: "Projeto prático de ajuste dimensional e tolerância mecânica realizado nas oficinas do SENAI Sertãozinho.",
+                image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+                likes: ["u2"],
+                createdAt: new Date().toISOString()
+            }
+        ];
+
+        const SEED_POSTS = [
+            { 
+                id: "p1", 
+                userId: "u1", 
+                text: "Peça finalizada hoje na aula prática de Usinagem CNC! ⚙️📐", 
+                image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80", 
+                likes: ["u2"], 
+                comments: [
+                    { id: "c1", userId: "u2", text: "Muito bom o acabamento! Parabéns!", createdAt: new Date().toISOString() }
+                ], 
+                archived: false,
+                createdAt: new Date().toISOString() 
+            }
+        ];
+
+        const SEED_DOUBTS = [
+            { 
+                id: "d1", 
+                userId: "u1", 
+                title: "Parametrização de Inversor em Rampa", 
+                course: "Acionamentos com Inversor de Frequência", 
+                body: "Dúvida ao ajustar a rampa de aceleração para 5s no inversor Siemens da bancada. Alguém sabe qual o código da função?", 
+                answers: [
+                    { id: "ans_1", userId: "u2", text: "No parâmetro P1120 você altera a aceleração! Coloca valor 5.0 e confirma no botão OK.", createdAt: new Date().toISOString() }
+                ], 
+                createdAt: new Date().toISOString() 
+            }
+        ];
+
+        let tempRegisterAvatarBase64 = "https://placehold.co/150x150/E30613/FFFFFF?text=SENAI";
+        let tempEditAvatarBase64 = null;
+        let tempPostImageBase64 = null;
+        let tempProfilePostImageBase64 = null;
+        let tempProjectImageBase64 = null;
+        let tempStoryImageBase64 = null;
+        let selectedHighlightStoryId = null;
+        let activeTab = "home";
+        let profileSubTab = "posts";
+        let searchFilterText = "";
+        let viewingUserId = null;
+        let storyTimer = null;
+
+        function getDB(key, defaultData) {
+            const data = localStorage.getItem("senaiconnect_" + key);
+            if (!data) {
+                localStorage.setItem("senaiconnect_" + key, JSON.stringify(defaultData));
+                return defaultData;
+            }
+            return JSON.parse(data);
+        }
+
+        function setDB(key, data) {
+            localStorage.setItem("senaiconnect_" + key, JSON.stringify(data));
+        }
+
+        function getCurrentUser() {
+            const userId = localStorage.getItem("senaiconnect_session");
+            if (!userId) return null;
+            return getDB("users", SEED_USERS).find(u => u.id === userId) || null;
+        }
+
+        function isStoryActive(createdAt) {
+            if (!createdAt) return false;
+            const now = new Date().getTime();
+            const created = new Date(createdAt).getTime();
+            const hoursDiff = (now - created) / (1000 * 60 * 60);
+            return hoursDiff < 24;
+        }
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem("senaiconnect_theme");
+            if (savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+                document.documentElement.classList.add("dark");
+                updateThemeIcon(true);
+            } else {
+                document.documentElement.classList.remove("dark");
+                updateThemeIcon(false);
+            }
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle("dark");
+            localStorage.setItem("senaiconnect_theme", isDark ? "dark" : "light");
+            updateThemeIcon(isDark);
+        }
+
+        function updateThemeIcon(isDark) {
+            const icon = document.getElementById("theme-icon");
+            if (icon) {
+                if (isDark) {
+                    icon.classList.remove("fa-moon");
+                    icon.classList.add("fa-sun");
+                } else {
+                    icon.classList.remove("fa-sun");
+                    icon.classList.add("fa-moon");
+                }
+            }
+        }
+
+        window.onload = function() {
+            initTheme();
+            getDB("users", SEED_USERS);
+            getDB("posts", SEED_POSTS);
+            getDB("doubts", SEED_DOUBTS);
+            getDB("projects", SEED_PROJECTS);
+            getDB("communities", SEED_COMMUNITIES);
+            getDB("stories", SEED_STORIES);
+            getDB("highlights", SEED_HIGHLIGHTS);
+
+            populateInterestsCheckboxes();
+            populateDoubtCourseDropdown();
+            renderAuthButtons();
+            navigateTo('home');
+        };
+
+        // FECHAR MENUS DROPDOWN AO CLICAR FORA
+        window.onclick = function(e) {
+            if (!e.target.closest('.post-options-btn')) {
+                document.querySelectorAll('.post-options-dropdown').forEach(d => d.classList.add('hidden'));
+            }
+        };
+
+        function navigateTo(pageId, targetUserId = null) {
+            activeTab = pageId;
+            document.querySelectorAll("main > section").forEach(sec => sec.classList.add("hidden"));
+            const target = document.getElementById("page-" + pageId);
+            if (target) target.classList.remove("hidden");
+
+            document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("bg-red-800", "text-white"));
+            const activeBtn = document.getElementById("nav-" + pageId);
+            if (activeBtn) activeBtn.classList.add("bg-red-800", "text-white");
+
+            if (pageId === "feed") {
+                renderStoriesBar();
+                renderFeed();
+            }
+            if (pageId === "search") renderSearchResults();
+            if (pageId === "projects") renderProjects();
+            if (pageId === "communities") renderCommunities();
+            if (pageId === "doubts") renderDoubts();
+            if (pageId === "profile") {
+                viewingUserId = targetUserId || (getCurrentUser() ? getCurrentUser().id : null);
+                renderProfilePage();
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handleSearch(val) {
+            searchFilterText = val.toLowerCase().trim();
+            if (activeTab === "search") renderSearchResults();
+            if (activeTab === "feed") renderFeed();
+            if (activeTab === "projects") renderProjects();
+            if (activeTab === "communities") renderCommunities();
+            if (activeTab === "doubts") renderDoubts();
+        }
+
+        // ==========================================
+        // APAGAR / ARQUIVAR POSTS LOGIC
+        // ==========================================
+        function togglePostOptionsMenu(postId, e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById(`post-dropdown-${postId}`);
+            document.querySelectorAll('.post-options-dropdown').forEach(d => {
+                if (d !== dropdown) d.classList.add('hidden');
+            });
+            if (dropdown) dropdown.classList.toggle('hidden');
+        }
+
+        function archivePost(postId) {
+            const posts = getDB("posts", SEED_POSTS);
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.archived = !post.archived;
+                setDB("posts", posts);
+                if (activeTab === "feed") renderFeed();
+                if (activeTab === "profile") renderProfilePage();
+            }
+        }
+
+        function deletePost(postId) {
+            if (confirm("Tem certeza que deseja apagar permanentemente esta publicação?")) {
+                let posts = getDB("posts", SEED_POSTS);
+                posts = posts.filter(p => p.id !== postId);
+                setDB("posts", posts);
+                if (activeTab === "feed") renderFeed();
+                if (activeTab === "profile") renderProfilePage();
+            }
+        }
+
+        // ==========================================
+        // FOLLOW / UNFOLLOW SYSTEM
+        // ==========================================
+        function toggleFollowUser(targetUserId) {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return openAuthModal('login');
+            if (currentUser.id === targetUserId) return;
+
+            const users = getDB("users", SEED_USERS);
+            const myIndex = users.findIndex(u => u.id === currentUser.id);
+            const targetIndex = users.findIndex(u => u.id === targetUserId);
+
+            if (myIndex !== -1 && targetIndex !== -1) {
+                if (!users[myIndex].following) users[myIndex].following = [];
+                if (!users[targetIndex].followers) users[targetIndex].followers = [];
+
+                const isFollowing = users[myIndex].following.includes(targetUserId);
+
+                if (isFollowing) {
+                    users[myIndex].following = users[myIndex].following.filter(id => id !== targetUserId);
+                    users[targetIndex].followers = users[targetIndex].followers.filter(id => id !== currentUser.id);
+                } else {
+                    users[myIndex].following.push(targetUserId);
+                    users[targetIndex].followers.push(currentUser.id);
+                }
+
+                setDB("users", users);
+
+                if (activeTab === "search") renderSearchResults();
+                if (activeTab === "profile") renderProfilePage();
+            }
+        }
+
+        // ==========================================
+        // SEARCH USERS PAGE LOGIC
+        // ==========================================
+        function renderSearchResults() {
+            const users = getDB("users", SEED_USERS);
+            const currentUser = getCurrentUser();
+            const container = document.getElementById("search-results-container");
+
+            let filtered = users;
+            if (searchFilterText) {
+                filtered = users.filter(u => 
+                    u.fullname.toLowerCase().includes(searchFilterText) || 
+                    u.username.toLowerCase().includes(searchFilterText) || 
+                    u.course.toLowerCase().includes(searchFilterText)
+                );
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="text-center text-gray-500 dark:text-gray-400 py-8">Nenhum aluno encontrado para "${escapeHtml(searchFilterText)}".</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(u => {
+                const isMe = currentUser && currentUser.id === u.id;
+                const isFollowing = currentUser && currentUser.following && currentUser.following.includes(u.id);
+
+                return `
+                    <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-2xl border border-gray-200 dark:border-gray-600 flex items-center justify-between hover:border-senai-red transition cursor-pointer" onclick="navigateTo('profile', '${u.id}')">
+                        <div class="flex items-center space-x-3.5">
+                            <img src="${u.avatar}" class="w-12 h-12 rounded-full object-cover border-2 border-senai-red flex-shrink-0">
+                            <div>
+                                <h4 class="font-bold text-sm text-gray-900 dark:text-white leading-tight">${u.fullname}</h4>
+                                <span class="text-xs text-senai-red dark:text-red-400 font-semibold">@${u.username}</span>
+                                <p class="text-xs text-gray-500 dark:text-gray-300 mt-0.5 truncate max-w-xs">${u.course}</p>
+                            </div>
+                        </div>
+
+                        ${!isMe ? `
+                            <button onclick="event.stopPropagation(); toggleFollowUser('${u.id}')" class="px-4 py-2 rounded-xl text-xs font-bold transition shadow ${isFollowing ? 'bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-red-100 hover:text-senai-red' : 'bg-senai-red hover:bg-senai-darkRed text-white'}">
+                                ${isFollowing ? 'Seguindo' : 'Seguir'}
+                            </button>
+                        ` : '<span class="text-xs font-bold text-gray-400 dark:text-gray-500 px-3 py-1 bg-gray-200 dark:bg-gray-600 rounded-lg">Você</span>'}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ==========================================
+        // EDIT PROFILE LOGIC
+        // ==========================================
+        function openEditProfileModal() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return;
+
+            document.getElementById("edit-fullname").value = currentUser.fullname || "";
+            document.getElementById("edit-course").value = currentUser.course || "";
+            document.getElementById("edit-duration").value = currentUser.duration || "De 2 a 6 meses";
+            document.getElementById("edit-bio").value = currentUser.bio || "";
+            document.getElementById("edit-avatar-preview").src = currentUser.avatar;
+            tempEditAvatarBase64 = currentUser.avatar;
+
+            document.getElementById("edit-profile-modal").classList.remove("hidden");
+        }
+
+        function closeEditProfileModal() {
+            document.getElementById("edit-profile-modal").classList.add("hidden");
+        }
+
+        function handleEditAvatarSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    tempEditAvatarBase64 = evt.target.result;
+                    document.getElementById("edit-avatar-preview").src = tempEditAvatarBase64;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveProfileChanges() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return;
+
+            const fullname = document.getElementById("edit-fullname").value.trim();
+            const course = document.getElementById("edit-course").value;
+            const duration = document.getElementById("edit-duration").value;
+            const bio = document.getElementById("edit-bio").value.trim();
+
+            if (!fullname) {
+                alert("O nome não pode estar vazio.");
+                return;
+            }
+
+            const users = getDB("users", SEED_USERS);
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+
+            if (userIndex !== -1) {
+                users[userIndex].fullname = fullname;
+                users[userIndex].course = course;
+                users[userIndex].duration = duration;
+                users[userIndex].bio = bio;
+                if (tempEditAvatarBase64) users[userIndex].avatar = tempEditAvatarBase64;
+
+                setDB("users", users);
+                closeEditProfileModal();
+                renderAuthButtons();
+                renderProfilePage();
+            }
+        }
+
+        // ==========================================
+        // HIGHLIGHTS (DESTAQUES) LOGIC
+        // ==========================================
+        function openHighlightModal() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return openAuthModal('login');
+
+            const allUserStories = getDB("stories", SEED_STORIES).filter(s => s.userId === currentUser.id);
+            if (allUserStories.length === 0) {
+                alert("Você precisa postar pelo menos 1 story para criar um destaque!");
+                return;
+            }
+
+            const selector = document.getElementById("highlight-story-selector");
+            selectedHighlightStoryId = allUserStories[0].id;
+
+            selector.innerHTML = allUserStories.map((s, idx) => `
+                <div onclick="selectHighlightStory('${s.id}')" id="hl-story-${s.id}" class="relative h-28 rounded-lg overflow-hidden border-2 ${idx === 0 ? 'border-senai-red' : 'border-transparent'} cursor-pointer bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                    ${s.image ? `<img src="${s.image}" class="w-full h-full object-contain">` : `<div class="p-2 text-[10px] text-gray-800 dark:text-gray-200">${s.text}</div>`}
+                </div>
+            `).join('');
+
+            document.getElementById("highlight-title").value = "";
+            document.getElementById("highlight-modal").classList.remove("hidden");
+        }
+
+        function closeHighlightModal() {
+            document.getElementById("highlight-modal").classList.add("hidden");
+        }
+
+        function selectHighlightStory(storyId) {
+            selectedHighlightStoryId = storyId;
+            document.querySelectorAll("#highlight-story-selector > div").forEach(el => el.classList.remove("border-senai-red"));
+            document.getElementById(`hl-story-${storyId}`).classList.add("border-senai-red");
+        }
+
+        function submitHighlight() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return;
+
+            const title = document.getElementById("highlight-title").value.trim() || "Destaque";
+            if (!selectedHighlightStoryId) {
+                alert("Selecione um story para o destaque.");
+                return;
+            }
+
+            const highlights = getDB("highlights", SEED_HIGHLIGHTS);
+            highlights.unshift({
+                id: "hl_" + Date.now(),
+                userId: currentUser.id,
+                title,
+                storyId: selectedHighlightStoryId,
+                createdAt: new Date().toISOString()
+            });
+
+            setDB("highlights", highlights);
+            closeHighlightModal();
+            renderProfilePage();
+        }
+
+        // ==========================================
+        // STORIES LOGIC (24H EXPIRATION)
+        // ==========================================
+        function renderStoriesBar() {
+            const stories = getDB("stories", SEED_STORIES);
+            const users = getDB("users", SEED_USERS);
+            const container = document.getElementById("stories-container");
+
+            const activeStories = stories.filter(s => isStoryActive(s.createdAt));
+
+            let html = `
+                <div onclick="openStoryModal()" class="flex flex-col items-center cursor-pointer flex-shrink-0 group">
+                    <div class="w-14 h-14 rounded-full border-2 border-dashed border-senai-red flex items-center justify-center bg-red-50 dark:bg-red-900/20 group-hover:bg-red-100 dark:group-hover:bg-red-900/40 transition">
+                        <i class="fa-solid fa-plus text-senai-red dark:text-red-400 text-lg"></i>
+                    </div>
+                    <span class="text-[11px] font-semibold text-gray-700 dark:text-gray-300 mt-1">Seu Story</span>
+                </div>
+            `;
+
+            activeStories.forEach(s => {
+                const author = users.find(u => u.id === s.userId) || { fullname: "Aluno SENAI", avatar: "" };
+                html += `
+                    <div onclick="viewStory('${s.id}')" class="flex flex-col items-center cursor-pointer flex-shrink-0">
+                        <div class="w-14 h-14 rounded-full p-0.5 bg-gradient-to-tr from-yellow-400 to-senai-red">
+                            <img src="${author.avatar}" class="w-full h-full rounded-full object-cover border-2 border-white dark:border-gray-800">
+                        </div>
+                        <span class="text-[11px] font-medium text-gray-700 dark:text-gray-300 mt-1 truncate w-16 text-center">${author.fullname.split(' ')[0]}</span>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function openStoryModal() {
+            if (!getCurrentUser()) return openAuthModal('login');
+            document.getElementById("story-modal").classList.remove("hidden");
+        }
+
+        function closeStoryModal() {
+            document.getElementById("story-modal").classList.add("hidden");
+            document.getElementById("story-text").value = "";
+            tempStoryImageBase64 = null;
+            document.getElementById("story-image-filename").innerText = "Nenhuma imagem";
+        }
+
+        function handleStoryImageSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById("story-image-filename").innerText = file.name;
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    tempStoryImageBase64 = evt.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function submitStory() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return;
+
+            const text = document.getElementById("story-text").value.trim();
+            if (!text && !tempStoryImageBase64) {
+                alert("Adicione um texto ou imagem ao story.");
+                return;
+            }
+
+            const stories = getDB("stories", SEED_STORIES);
+            stories.unshift({
+                id: "s_" + Date.now(),
+                userId: currentUser.id,
+                text,
+                image: tempStoryImageBase64 || "",
+                createdAt: new Date().toISOString()
+            });
+
+            setDB("stories", stories);
+            closeStoryModal();
+            renderStoriesBar();
+            if (activeTab === "profile") renderProfilePage();
+        }
+
+        function viewStory(storyId) {
+            const stories = getDB("stories", SEED_STORIES);
+            const users = getDB("users", SEED_USERS);
+            const story = stories.find(s => s.id === storyId);
+            if (!story) return;
+
+            const author = users.find(u => u.id === story.userId) || { fullname: "Aluno SENAI", avatar: "" };
+
+            document.getElementById("view-story-avatar").src = author.avatar;
+            document.getElementById("view-story-author").innerText = author.fullname;
+            document.getElementById("view-story-time").innerText = formatDate(story.createdAt);
+            document.getElementById("view-story-text").innerText = story.text || "";
+
+            const imgEl = document.getElementById("view-story-image");
+            const overlayEl = document.getElementById("view-story-overlay");
+
+            if (story.image) {
+                imgEl.src = story.image;
+                imgEl.classList.remove("hidden");
+                overlayEl.classList.remove("hidden");
+            } else {
+                imgEl.classList.add("hidden");
+                overlayEl.classList.add("hidden");
+            }
+
+            document.getElementById("view-story-modal").classList.remove("hidden");
+
+            const fill = document.getElementById("story-progress-fill");
+            fill.style.width = "0%";
+            let progress = 0;
+            clearInterval(storyTimer);
+            storyTimer = setInterval(() => {
+                progress += 2;
+                fill.style.width = progress + "%";
+                if (progress >= 100) {
+                    clearInterval(storyTimer);
+                    closeViewStoryModal();
+                }
+            }, 100);
+        }
+
+        function closeViewStoryModal() {
+            clearInterval(storyTimer);
+            document.getElementById("view-story-modal").classList.add("hidden");
+        }
+
+        // ==========================================
+        // FEED LIKE & COMMENT LOGIC
+        // ==========================================
+        function toggleLikePost(postId) {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return openAuthModal('login');
+
+            const posts = getDB("posts", SEED_POSTS);
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                if (!post.likes) post.likes = [];
+                const idx = post.likes.indexOf(currentUser.id);
+                if (idx > -1) {
+                    post.likes.splice(idx, 1);
+                } else {
+                    post.likes.push(currentUser.id);
+                }
+                setDB("posts", posts);
+                if (activeTab === "feed") renderFeed();
+                if (activeTab === "profile") renderProfilePage();
+            }
+        }
+
+        function toggleCommentsBox(postId) {
+            const container = document.getElementById(`comments-box-${postId}`);
+            if (container) {
+                container.classList.toggle("hidden");
+            }
+        }
+
+        function submitComment(postId) {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return openAuthModal('login');
+
+            const input = document.getElementById(`comment-input-${postId}`);
+            const text = input ? input.value.trim() : "";
+            if (!text) return;
+
+            const posts = getDB("posts", SEED_POSTS);
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                if (!post.comments) post.comments = [];
+                post.comments.push({
+                    id: "c_" + Date.now(),
+                    userId: currentUser.id,
+                    text,
+                    createdAt: new Date().toISOString()
+                });
+                setDB("posts", posts);
+                if (activeTab === "feed") renderFeed();
+                if (activeTab === "profile") renderProfilePage();
+            }
+        }
+
+        function renderFeed() {
+            const currentUser = getCurrentUser();
+            const summaryCard = document.getElementById("feed-user-summary-card");
+            if (currentUser) {
+                summaryCard.innerHTML = `
+                    <img src="${currentUser.avatar}" class="w-20 h-20 rounded-full object-cover border-4 border-senai-red mx-auto mb-2 cursor-pointer" onclick="navigateTo('profile', '${currentUser.id}')">
+                    <h3 class="font-bold text-gray-900 dark:text-white text-sm cursor-pointer" onclick="navigateTo('profile', '${currentUser.id}')">${currentUser.fullname}</h3>
+                    <p class="text-xs text-senai-red dark:text-red-400 font-semibold">@${currentUser.username}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">${currentUser.course}</p>
+                `;
+            } else {
+                summaryCard.innerHTML = `<p class="text-xs text-gray-500 dark:text-gray-400">Faça login para postar e interagir.</p>`;
+            }
+
+            const posts = getDB("posts", SEED_POSTS).filter(p => !p.archived);
+            const users = getDB("users", SEED_USERS);
+            const container = document.getElementById("posts-container");
+
+            container.innerHTML = posts.map(post => {
+                const author = users.find(u => u.id === post.userId) || { id: "", fullname: "Aluno SENAI", avatar: "https://placehold.co/100x100/E30613/FFFFFF?text=SENAI" };
+                const isLiked = currentUser && post.likes && post.likes.includes(currentUser.id);
+                const likesCount = (post.likes || []).length;
+                const commentsCount = (post.comments || []).length;
+                const isOwner = currentUser && currentUser.id === post.userId;
+
+                return `
+                    <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 space-y-3 transition-colors relative">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('profile', '${author.id}')">
+                                <img src="${author.avatar}" class="w-10 h-10 rounded-full object-cover border border-senai-red">
+                                <div>
+                                    <h4 class="font-bold text-sm text-gray-900 dark:text-white hover:underline">${author.fullname}</h4>
+                                    <span class="text-[11px] text-gray-400">${formatDate(post.createdAt)}</span>
+                                </div>
+                            </div>
+
+                            ${isOwner ? `
+                                <div class="relative">
+                                    <button onclick="togglePostOptionsMenu('${post.id}', event)" class="post-options-btn text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-2 rounded-lg">
+                                        <i class="fa-solid fa-ellipsis-vertical text-base"></i>
+                                    </button>
+
+                                    <!-- DROPDOWN OPTIONS MENU -->
+                                    <div id="post-dropdown-${post.id}" class="post-options-dropdown hidden absolute right-0 top-8 w-44 bg-white dark:bg-gray-700 rounded-xl shadow-xl border border-gray-100 dark:border-gray-600 py-1 z-30 text-xs font-semibold text-gray-700 dark:text-gray-200">
+                                        <button onclick="archivePost('${post.id}')" class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center space-x-2">
+                                            <i class="fa-solid fa-box-archive text-yellow-500"></i>
+                                            <span>Arquivar Post</span>
+                                        </button>
+                                        <button onclick="deletePost('${post.id}')" class="w-full text-left px-4 py-2 hover:bg-red-50 dark:hover:bg-red-900/30 text-senai-red dark:text-red-400 flex items-center space-x-2">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                            <span>Apagar Post</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <p class="text-sm text-gray-800 dark:text-gray-200 leading-relaxed">${escapeHtml(post.text)}</p>
+                        ${post.image ? `
+                            <div class="bg-black/5 dark:bg-black/30 rounded-xl overflow-hidden max-h-[500px] flex items-center justify-center">
+                                <img src="${post.image}" class="max-h-[500px] w-full object-contain">
+                            </div>
+                        ` : ''}
+
+                        <!-- ACTIONS BAR -->
+                        <div class="flex items-center space-x-6 border-t border-b border-gray-100 dark:border-gray-700 py-2 text-xs">
+                            <button onclick="toggleLikePost('${post.id}')" class="flex items-center space-x-1.5 font-semibold ${isLiked ? 'text-senai-red dark:text-red-400' : 'text-gray-500 dark:text-gray-400 hover:text-senai-red dark:hover:text-red-400'} transition">
+                                <i class="${isLiked ? 'fa-solid' : 'fa-regular'} fa-heart text-base"></i>
+                                <span>${likesCount} ${likesCount === 1 ? 'Curtida' : 'Curtidas'}</span>
+                            </button>
+
+                            <button onclick="toggleCommentsBox('${post.id}')" class="flex items-center space-x-1.5 font-semibold text-gray-500 dark:text-gray-400 hover:text-senai-red dark:hover:text-red-400 transition">
+                                <i class="fa-regular fa-comment text-base"></i>
+                                <span>${commentsCount} ${commentsCount === 1 ? 'Comentário' : 'Comentários'}</span>
+                            </button>
+                        </div>
+
+                        <!-- COMMENTS SECTION -->
+                        <div id="comments-box-${post.id}" class="space-y-3 pt-2">
+                            <div class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
+                                ${(post.comments || []).map(c => {
+                                    const cAuthor = users.find(u => u.id === c.userId) || { fullname: "Aluno SENAI" };
+                                    return `
+                                        <div class="bg-gray-50 dark:bg-gray-700/50 p-2.5 rounded-xl text-xs space-y-1">
+                                            <div class="flex justify-between items-center">
+                                                <span class="font-bold text-gray-800 dark:text-gray-200">${cAuthor.fullname}</span>
+                                                <span class="text-[9px] text-gray-400">${formatDate(c.createdAt)}</span>
+                                            </div>
+                                            <p class="text-gray-700 dark:text-gray-300">${escapeHtml(c.text)}</p>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+
+                            <div class="flex space-x-2">
+                                <input type="text" id="comment-input-${post.id}" placeholder="Escreva um comentário..." class="flex-1 p-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl text-xs dark:text-white focus:ring-1 focus:ring-senai-red focus:outline-none">
+                                <button onclick="submitComment('${post.id}')" class="bg-senai-red hover:bg-senai-darkRed text-white font-bold px-3 py-1.5 rounded-xl text-xs transition">
+                                    Comentar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ==========================================
+        // DÚVIDAS & RESPOSTAS LOGIC
+        // ==========================================
+        function toggleDoubtForm() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) {
+                alert("Faça login para publicar uma dúvida!");
+                return openAuthModal('login');
+            }
+            document.getElementById("doubt-form-container").classList.toggle("hidden");
+        }
+
+        function submitDoubt() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return openAuthModal('login');
+
+            const title = document.getElementById("doubt-title").value.trim();
+            const course = document.getElementById("doubt-course").value;
+            const body = document.getElementById("doubt-body").value.trim();
+
+            if (!title || !body) {
+                alert("Preencha o título e os detalhes da sua dúvida.");
+                return;
+            }
+
+            const doubts = getDB("doubts", SEED_DOUBTS);
+            doubts.unshift({
+                id: "d_" + Date.now(),
+                userId: currentUser.id,
+                title, course: course || "Geral", body, answers: [], createdAt: new Date().toISOString()
+            });
+            setDB("doubts", doubts);
+
+            document.getElementById("doubt-title").value = "";
+            document.getElementById("doubt-body").value = "";
+
+            toggleDoubtForm();
+            renderDoubts();
+        }
+
+        function toggleAnswersBox(doubtId) {
+            const box = document.getElementById(`answers-box-${doubtId}`);
+            if (box) box.classList.toggle("hidden");
+        }
+
+        function submitAnswer(doubtId) {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return openAuthModal('login');
+
+            const input = document.getElementById(`answer-input-${doubtId}`);
+            const text = input ? input.value.trim() : "";
+            if (!text) return;
+
+            const doubts = getDB("doubts", SEED_DOUBTS);
+            const doubt = doubts.find(d => d.id === doubtId);
+            if (doubt) {
+                if (!doubt.answers) doubt.answers = [];
+                doubt.answers.push({
+                    id: "ans_" + Date.now(),
+                    userId: currentUser.id,
+                    text,
+                    createdAt: new Date().toISOString()
+                });
+                setDB("doubts", doubts);
+                renderDoubts();
+            }
+        }
+
+        function renderDoubts() {
+            const doubts = getDB("doubts", SEED_DOUBTS);
+            const users = getDB("users", SEED_USERS);
+            const container = document.getElementById("doubts-container");
+
+            let filtered = doubts.filter(d => {
+                if (searchFilterText) {
+                    return d.title.toLowerCase().includes(searchFilterText) || d.body.toLowerCase().includes(searchFilterText) || d.course.toLowerCase().includes(searchFilterText);
+                }
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="text-center text-gray-500 dark:text-gray-400 py-8">Nenhuma dúvida cadastrada ainda.</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(d => {
+                const author = users.find(u => u.id === d.userId) || { fullname: "Aluno SENAI", avatar: "https://placehold.co/100x100/E30613/FFFFFF?text=SENAI" };
+                const answersCount = (d.answers || []).length;
+
+                return `
+                    <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl border border-gray-200 dark:border-gray-700 space-y-3 shadow-sm transition-colors">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-red-100 dark:bg-red-900/40 text-senai-red dark:text-red-300 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">
+                                ${escapeHtml(d.course)}
+                            </span>
+                            <span class="text-[11px] text-gray-400">${formatDate(d.createdAt)}</span>
+                        </div>
+
+                        <div class="space-y-1">
+                            <h3 class="font-bold text-gray-900 dark:text-white text-base">${escapeHtml(d.title)}</h3>
+                            <p class="text-xs text-gray-700 dark:text-gray-300 leading-relaxed">${escapeHtml(d.body)}</p>
+                            <p class="text-[10px] text-gray-400">Pergunta enviada por <b>${author.fullname}</b></p>
+                        </div>
+
+                        <!-- ANSWERS ACTION BAR -->
+                        <div class="pt-2 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between text-xs">
+                            <button onclick="toggleAnswersBox('${d.id}')" class="text-senai-red dark:text-red-400 font-bold hover:underline flex items-center space-x-1.5">
+                                <i class="fa-solid fa-comments"></i>
+                                <span>${answersCount} ${answersCount === 1 ? 'Resposta' : 'Respostas'}</span>
+                            </button>
+                        </div>
+
+                        <!-- ANSWERS SECTION -->
+                        <div id="answers-box-${d.id}" class="space-y-3 pt-2 bg-gray-50/70 dark:bg-gray-700/50 p-3 rounded-xl border border-gray-100 dark:border-gray-700">
+                            <h4 class="font-bold text-xs text-gray-800 dark:text-gray-200">Respostas dos Alunos:</h4>
+                            
+                            <div class="space-y-2 max-h-60 overflow-y-auto custom-scrollbar">
+                                ${answersCount === 0 ? '<p class="text-xs text-gray-400 italic">Nenhuma resposta para esta dúvida ainda. Seja o primeiro a responder!</p>' : ''}
+                                ${(d.answers || []).map(ans => {
+                                    const ansAuthor = users.find(u => u.id === ans.userId) || { fullname: "Aluno SENAI", avatar: "https://placehold.co/100x100/E30613/FFFFFF?text=SENAI" };
+                                    return `
+                                        <div class="bg-white dark:bg-gray-800 p-3 rounded-xl border border-gray-200 dark:border-gray-700 space-y-1 text-xs">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center space-x-2">
+                                                    <img src="${ansAuthor.avatar}" class="w-6 h-6 rounded-full object-cover border border-senai-red">
+                                                    <span class="font-bold text-gray-900 dark:text-white">${ansAuthor.fullname}</span>
+                                                </div>
+                                                <span class="text-[9px] text-gray-400">${formatDate(ans.createdAt)}</span>
+                                            </div>
+                                            <p class="text-gray-700 dark:text-gray-300 pl-8">${escapeHtml(ans.text)}</p>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+
+                            <!-- ANSWER INPUT FORM -->
+                            <div class="flex space-x-2 pt-2">
+                                <input type="text" id="answer-input-${d.id}" onkeypress="if(event.key === 'Enter') submitAnswer('${d.id}')" placeholder="Sabe a solução? Responda aqui..." class="flex-1 p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl text-xs dark:text-white focus:ring-1 focus:ring-senai-red focus:outline-none">
+                                <button onclick="submitAnswer('${d.id}')" class="bg-senai-red hover:bg-senai-darkRed text-white font-bold px-3 py-1.5 rounded-xl text-xs transition flex items-center space-x-1">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                    <span>Responder</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ==========================================
+        // COMUNIDADES & CHAT EXCLUSIVO PARA MEMBROS LOGIC
+        // ==========================================
+        function toggleCommunityForm() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) {
+                alert("Faça login para criar grupos de estudos!");
+                openAuthModal('login');
+                return;
+            }
+            document.getElementById("community-form-container").classList.toggle("hidden");
+        }
+
+        function submitCommunity() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return;
+
+            const name = document.getElementById("comm-name").value.trim();
+            const category = document.getElementById("comm-category").value.trim();
+            const desc = document.getElementById("comm-desc").value.trim();
+
+            if (!name || !desc) {
+                alert("Preencha o nome e a descrição do grupo.");
+                return;
+            }
+
+            const communities = getDB("communities", SEED_COMMUNITIES);
+            const newComm = {
+                id: "comm_" + Date.now(),
+                name,
+                category: category || "Geral",
+                desc,
+                members: [currentUser.id],
+                messages: []
+            };
+
+            communities.unshift(newComm);
+            setDB("communities", communities);
+
+            document.getElementById("comm-name").value = "";
+            document.getElementById("comm-category").value = "";
+            document.getElementById("comm-desc").value = "";
+
+            toggleCommunityForm();
+            renderCommunities();
+        }
+
+        function toggleJoinCommunity(commId) {
+            const currentUser = getCurrentUser();
+            if (!currentUser) {
+                alert("Faça login para participar das comunidades!");
+                openAuthModal('login');
+                return;
+            }
+
+            const communities = getDB("communities", SEED_COMMUNITIES);
+            const comm = communities.find(c => c.id === commId);
+            if (comm) {
+                if (!comm.members) comm.members = [];
+                const idx = comm.members.indexOf(currentUser.id);
+                if (idx > -1) {
+                    comm.members.splice(idx, 1);
+                } else {
+                    comm.members.push(currentUser.id);
+                }
+                setDB("communities", communities);
+                renderCommunities();
+            }
+        }
+
+        function renderCommunities() {
+            const communities = getDB("communities", SEED_COMMUNITIES);
+            const currentUser = getCurrentUser();
+            const container = document.getElementById("communities-list-container");
+
+            document.getElementById("community-main-view").classList.remove("hidden");
+            document.getElementById("community-detail-view").classList.add("hidden");
+
+            let filtered = communities.filter(c => {
+                if (searchFilterText) {
+                    return c.name.toLowerCase().includes(searchFilterText) || c.desc.toLowerCase().includes(searchFilterText);
+                }
+                return true;
+            });
+
+            container.innerHTML = filtered.map(c => {
+                const isMember = currentUser && c.members && c.members.includes(currentUser.id);
+                return `
+                    <div class="bg-gray-50/70 dark:bg-gray-800/80 p-5 rounded-2xl border border-gray-200 dark:border-gray-700 flex flex-col justify-between space-y-3 transition-colors">
+                        <div class="space-y-2">
+                            <span class="bg-red-100 dark:bg-red-900/40 text-senai-red dark:text-red-300 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-red-200 dark:border-red-900/50 uppercase">
+                                ${escapeHtml(c.category)}
+                            </span>
+                            <h3 class="font-bold text-gray-900 dark:text-white text-base leading-snug">${escapeHtml(c.name)}</h3>
+                            <p class="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">${escapeHtml(c.desc)}</p>
+                        </div>
+                        <div class="pt-2 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                            <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">${(c.members || []).length} Membro(s)</span>
+                            
+                            <div class="flex space-x-2">
+                                ${isMember ? `
+                                    <button onclick="openCommunityChat('${c.id}')" class="bg-senai-red hover:bg-senai-darkRed text-white font-bold px-3 py-1.5 rounded-xl text-xs transition flex items-center space-x-1 shadow">
+                                        <i class="fa-solid fa-comments"></i>
+                                        <span>Acessar Chat</span>
+                                    </button>
+                                    <button onclick="toggleJoinCommunity('${c.id}')" class="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 font-bold px-2.5 py-1.5 rounded-xl text-xs transition">
+                                        Sair
+                                    </button>
+                                ` : `
+                                    <button onclick="toggleJoinCommunity('${c.id}')" class="bg-senai-red hover:bg-senai-darkRed text-white font-bold px-4 py-1.5 rounded-xl text-xs transition shadow flex items-center space-x-1">
+                                        <i class="fa-solid fa-user-plus"></i>
+                                        <span>Entrar</span>
+                                    </button>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openCommunityChat(commId) {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return openAuthModal('login');
+
+            const communities = getDB("communities", SEED_COMMUNITIES);
+            const users = getDB("users", SEED_USERS);
+            const comm = communities.find(c => c.id === commId);
+
+            if (!comm) return;
+
+            const isMember = comm.members && comm.members.includes(currentUser.id);
+            if (!isMember) {
+                alert("Você precisa 'Entrar' na comunidade para acessar o bate-papo!");
+                return;
+            }
+
+            document.getElementById("community-main-view").classList.add("hidden");
+            const detailView = document.getElementById("community-detail-view");
+            detailView.classList.remove("hidden");
+
+            detailView.innerHTML = `
+                <!-- CHAT HEADER -->
+                <div class="bg-senai-red text-white p-4 flex items-center justify-between shadow-md">
+                    <div class="flex items-center space-x-3">
+                        <button onclick="renderCommunities()" class="hover:bg-red-800 p-2 rounded-lg text-sm transition">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                        <div>
+                            <h3 class="font-bold text-base leading-tight">${escapeHtml(comm.name)}</h3>
+                            <span class="text-xs text-red-100">${(comm.members || []).length} Membros participando</span>
+                        </div>
+                    </div>
+                    <button onclick="toggleJoinCommunity('${comm.id}')" class="bg-red-900/80 hover:bg-red-950 text-white font-semibold px-3 py-1.5 rounded-xl text-xs transition">
+                        Sair do Grupo
+                    </button>
+                </div>
+
+                <!-- CHAT MESSAGES BODY -->
+                <div id="chat-messages-container" class="flex-1 p-4 overflow-y-auto space-y-4 bg-gray-50 dark:bg-gray-900 custom-scrollbar">
+                    ${(comm.messages || []).length === 0 ? '<div class="text-center text-xs text-gray-400 py-10">Você entrou no grupo! Seja o primeiro a enviar uma mensagem.</div>' : ''}
+                    ${(comm.messages || []).map(msg => {
+                        const author = users.find(u => u.id === msg.userId) || { fullname: "Aluno SENAI", avatar: "https://placehold.co/100x100/E30613/FFFFFF?text=SENAI" };
+                        const isMe = currentUser.id === msg.userId;
+
+                        return `
+                            <div class="flex items-start space-x-2.5 ${isMe ? 'flex-row-reverse space-x-reverse' : ''}">
+                                <img src="${author.avatar}" class="w-8 h-8 rounded-full object-cover border border-senai-red flex-shrink-0">
+                                <div class="max-w-[75%] space-y-1">
+                                    <div class="flex items-center space-x-2 ${isMe ? 'justify-end' : ''}">
+                                        <span class="text-[10px] font-bold text-gray-700 dark:text-gray-300">${author.fullname}</span>
+                                        <span class="text-[9px] text-gray-400">${formatDate(msg.createdAt)}</span>
+                                    </div>
+                                    <div class="p-3 rounded-2xl text-xs leading-relaxed shadow-sm ${isMe ? 'bg-senai-red text-white rounded-tr-none' : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-tl-none border border-gray-100 dark:border-gray-700'}">
+                                        ${escapeHtml(msg.text)}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+
+                <!-- CHAT INPUT FOOTER -->
+                <div class="p-3 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex items-center space-x-2">
+                    <input type="text" id="chat-input-${comm.id}" onkeypress="if(event.key === 'Enter') sendChatMessage('${comm.id}')" placeholder="Digite sua mensagem para o grupo..." class="flex-1 p-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl text-xs dark:text-white focus:ring-2 focus:ring-senai-red focus:outline-none">
+                    <button onclick="sendChatMessage('${comm.id}')" class="bg-senai-red hover:bg-senai-darkRed text-white font-bold px-4 py-3 rounded-xl text-xs transition flex items-center space-x-1">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span class="hidden md:inline">Enviar</span>
+                    </button>
+                </div>
+            `;
+
+            const chatContainer = document.getElementById("chat-messages-container");
+            if (chatContainer) chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function sendChatMessage(commId) {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return openAuthModal('login');
+
+            const input = document.getElementById(`chat-input-${commId}`);
+            const text = input ? input.value.trim() : "";
+            if (!text) return;
+
+            const communities = getDB("communities", SEED_COMMUNITIES);
+            const comm = communities.find(c => c.id === commId);
+            if (comm) {
+                if (!comm.messages) comm.messages = [];
+                comm.messages.push({
+                    id: "cm_" + Date.now(),
+                    userId: currentUser.id,
+                    text,
+                    createdAt: new Date().toISOString()
+                });
+
+                setDB("communities", communities);
+                openCommunityChat(commId);
+            }
+        }
+
+        // ==========================================
+        // PROJETOS LOGIC
+        // ==========================================
+        function toggleProjectForm() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) {
+                alert("Faça login para adicionar projetos ao portfólio!");
+                openAuthModal('login');
+                return;
+            }
+            document.getElementById("project-form-container").classList.toggle("hidden");
+        }
+
+        function handleProjectImageSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById("project-image-filename").innerText = file.name;
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    tempProjectImageBase64 = evt.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function submitProject() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return;
+
+            const title = document.getElementById("project-title").value.trim();
+            const techs = document.getElementById("project-techs").value.trim();
+            const desc = document.getElementById("project-desc").value.trim();
+
+            if (!title || !desc) {
+                alert("Preencha o título e a descrição do seu projeto.");
+                return;
+            }
+
+            const projects = getDB("projects", SEED_PROJECTS);
+            const newProj = {
+                id: "proj_" + Date.now(),
+                userId: currentUser.id,
+                title,
+                techs: techs || "SENAI Sertãozinho",
+                desc,
+                image: tempProjectImageBase64 || "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+                likes: [],
+                createdAt: new Date().toISOString()
+            };
+
+            projects.unshift(newProj);
+            setDB("projects", projects);
+
+            document.getElementById("project-title").value = "";
+            document.getElementById("project-techs").value = "";
+            document.getElementById("project-desc").value = "";
+            tempProjectImageBase64 = null;
+            document.getElementById("project-image-filename").innerText = "Nenhuma imagem escolhida";
+
+            toggleProjectForm();
+            renderProjects();
+        }
+
+        function renderProjects() {
+            const projects = getDB("projects", SEED_PROJECTS);
+            const users = getDB("users", SEED_USERS);
+            const container = document.getElementById("projects-list-container");
+
+            let filtered = projects.filter(p => {
+                if (searchFilterText) {
+                    return p.title.toLowerCase().includes(searchFilterText) || p.desc.toLowerCase().includes(searchFilterText) || p.techs.toLowerCase().includes(searchFilterText);
+                }
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-2 text-center text-gray-500 dark:text-gray-400 py-8">Nenhum projeto postado ainda.</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(p => {
+                const author = users.find(u => u.id === p.userId) || { fullname: "Aluno SENAI" };
+                return `
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden shadow-sm flex flex-col justify-between transition-colors">
+                        <div>
+                            <div class="h-52 bg-black/5 dark:bg-black/30 overflow-hidden relative flex items-center justify-center">
+                                <img src="${p.image}" class="w-full h-full object-contain">
+                                <span class="absolute top-3 left-3 bg-senai-red text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">
+                                    ${escapeHtml(p.techs)}
+                                </span>
+                            </div>
+                            <div class="p-5 space-y-2">
+                                <h3 class="font-bold text-gray-900 dark:text-white text-lg leading-snug">${escapeHtml(p.title)}</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Desenvolvido por <b>${author.fullname}</b></p>
+                                <p class="text-xs text-gray-700 dark:text-gray-300 leading-relaxed pt-2">${escapeHtml(p.desc)}</p>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-50 dark:bg-gray-700/50 border-t border-gray-100 dark:border-gray-700 text-xs text-gray-400 flex justify-between items-center">
+                            <span>SENAI Sertãozinho</span>
+                            <span>${formatDate(p.createdAt)}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ==========================================
+        // OUTRAS FUNÇÕES AUXILIARES
+        // ==========================================
+        function renderAuthButtons() {
+            const currentUser = getCurrentUser();
+            const container = document.getElementById("auth-buttons-container");
+            const heroRegisterBtn = document.getElementById("btn-hero-register");
+
+            if (currentUser) {
+                container.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <img src="${currentUser.avatar}" onclick="navigateTo('profile', '${currentUser.id}')" class="w-8 h-8 rounded-full border border-white object-cover cursor-pointer">
+                        <button onclick="handleLogout()" class="bg-red-900/80 text-white text-xs px-2.5 py-1.5 rounded-lg"><i class="fa-solid fa-right-from-bracket"></i></button>
+                    </div>
+                `;
+                if (heroRegisterBtn) heroRegisterBtn.style.display = "none";
+            } else {
+                container.innerHTML = `
+                    <div class="flex items-center space-x-1">
+                        <button onclick="openAuthModal('login')" class="text-xs text-white px-2 py-1.5">Entrar</button>
+                        <button onclick="openAuthModal('register')" class="text-xs bg-white text-senai-red font-bold px-2.5 py-1.5 rounded-lg">Cadastrar</button>
+                    </div>
+                `;
+                if (heroRegisterBtn) heroRegisterBtn.style.display = "inline-block";
+            }
+        }
+
+        function openAuthModal(tab) {
+            document.getElementById("auth-modal").classList.remove("hidden");
+            switchAuthTab(tab);
+        }
+
+        function closeAuthModal() {
+            document.getElementById("auth-modal").classList.add("hidden");
+        }
+
+        function switchAuthTab(tab) {
+            const formLogin = document.getElementById("form-login");
+            const formRegister = document.getElementById("form-register");
+            if (tab === 'login') {
+                formLogin.classList.remove("hidden");
+                formRegister.classList.add("hidden");
+            } else {
+                formLogin.classList.add("hidden");
+                formRegister.classList.remove("hidden");
+            }
+        }
+
+        function populateInterestsCheckboxes() {
+            const container = document.getElementById("interests-checkboxes-container");
+            container.innerHTML = ALL_INTERESTS.map(tag => `
+                <label class="flex items-center space-x-1 p-1 bg-white dark:bg-gray-800 rounded border border-gray-100 dark:border-gray-700 hover:bg-red-50 dark:hover:bg-red-900/30 cursor-pointer">
+                    <input type="checkbox" value="${tag}" class="interest-checkbox rounded text-senai-red">
+                    <span class="text-gray-700 dark:text-gray-300 truncate">${tag}</span>
+                </label>
+            `).join("");
+        }
+
+        function populateDoubtCourseDropdown() {
+            const select = document.getElementById("doubt-course");
+            const regSelect = document.getElementById("reg-course");
+            if (regSelect && select) {
+                select.innerHTML = `<option value="">Selecione o curso...</option>` + regSelect.innerHTML;
+            }
+        }
+
+        function handleAvatarSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempRegisterAvatarBase64 = e.target.result;
+                    document.getElementById("reg-avatar-preview").src = tempRegisterAvatarBase64;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleRegisterSubmit(e) {
+            e.preventDefault();
+            const fullname = document.getElementById("reg-fullname").value.trim();
+            const username = document.getElementById("reg-username").value.trim().toLowerCase();
+            const password = document.getElementById("reg-password").value;
+            const course = document.getElementById("reg-course").value;
+            const duration = document.getElementById("reg-duration").value;
+            const bio = document.getElementById("reg-bio").value.trim();
+
+            const selectedInterests = [];
+            document.querySelectorAll(".interest-checkbox:checked").forEach(cb => selectedInterests.push(cb.value));
+
+            const users = getDB("users", SEED_USERS);
+            const newUser = {
+                id: "u_" + Date.now(),
+                fullname, username, password, course, duration,
+                avatar: tempRegisterAvatarBase64,
+                bio: bio || `Estudante do curso de ${course} no SENAI.`,
+                interests: selectedInterests,
+                followers: [], following: []
+            };
+
+            users.push(newUser);
+            setDB("users", users);
+            localStorage.setItem("senaiconnect_session", newUser.id);
+            renderAuthButtons();
+            closeAuthModal();
+            navigateTo('feed');
+        }
+
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            const usernameInput = document.getElementById("login-username").value.trim().toLowerCase().replace('@', '');
+            const passwordInput = document.getElementById("login-password").value;
+            const users = getDB("users", SEED_USERS);
+            const user = users.find(u => u.username.toLowerCase() === usernameInput && u.password === passwordInput);
+
+            if (user) {
+                localStorage.setItem("senaiconnect_session", user.id);
+                renderAuthButtons();
+                closeAuthModal();
+                navigateTo('feed');
+            } else {
+                alert("Usuário ou senha incorretos.");
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem("senaiconnect_session");
+            renderAuthButtons();
+            navigateTo('home');
+        }
+
+        function handleImageSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    tempPostImageBase64 = evt.target.result;
+                    document.getElementById("post-image-preview").src = tempPostImageBase64;
+                    document.getElementById("post-image-preview-container").classList.remove("hidden");
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeAttachedImage() {
+            tempPostImageBase64 = null;
+            document.getElementById("post-image-preview-container").classList.add("hidden");
+        }
+
+        function handleProfilePostImageSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    tempProfilePostImageBase64 = evt.target.result;
+                    document.getElementById("profile-post-image-preview").src = tempProfilePostImageBase64;
+                    document.getElementById("profile-post-image-preview-container").classList.remove("hidden");
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeProfilePostAttachedImage() {
+            tempProfilePostImageBase64 = null;
+            document.getElementById("profile-post-image-preview-container").classList.add("hidden");
+        }
+
+        function submitProfileNewPost() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return openAuthModal('login');
+            const text = document.getElementById("profile-post-text").value.trim();
+            if (!text && !tempProfilePostImageBase64) return;
+
+            const posts = getDB("posts", SEED_POSTS);
+            posts.unshift({
+                id: "p_" + Date.now(),
+                userId: currentUser.id,
+                text, image: tempProfilePostImageBase64,
+                likes: [], comments: [], archived: false, createdAt: new Date().toISOString()
+            });
+            setDB("posts", posts);
+            document.getElementById("profile-post-text").value = "";
+            removeProfilePostAttachedImage();
+            renderProfilePage();
+        }
+
+        function switchProfileSubTab(tabName) {
+            profileSubTab = tabName;
+            renderProfilePage();
+        }
+
+        function submitNewPost() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return openAuthModal('login');
+            const text = document.getElementById("post-text").value.trim();
+            if (!text && !tempPostImageBase64) return;
+
+            const posts = getDB("posts", SEED_POSTS);
+            posts.unshift({
+                id: "p_" + Date.now(),
+                userId: currentUser.id,
+                text, image: tempPostImageBase64,
+                likes: [], comments: [], archived: false, createdAt: new Date().toISOString()
+            });
+            setDB("posts", posts);
+            document.getElementById("post-text").value = "";
+            removeAttachedImage();
+            renderFeed();
+        }
+
+        function renderProfilePage() {
+            const currentUser = getCurrentUser();
+            const users = getDB("users", SEED_USERS);
+            const container = document.getElementById("profile-content-container");
+
+            const profileUser = users.find(u => u.id === (viewingUserId || (currentUser ? currentUser.id : null))) || currentUser;
+
+            if (!profileUser) {
+                container.innerHTML = `<div class="bg-white dark:bg-gray-800 p-8 text-center rounded-xl text-sm">Faça login para ver seu perfil.</div>`;
+                return;
+            }
+
+            const isOwnProfile = currentUser && currentUser.id === profileUser.id;
+            const isFollowing = currentUser && currentUser.following && currentUser.following.includes(profileUser.id);
+
+            const allUserPosts = getDB("posts", SEED_POSTS).filter(p => p.userId === profileUser.id);
+            const myActivePosts = allUserPosts.filter(p => !p.archived);
+            const myArchivedPosts = allUserPosts.filter(p => p.archived);
+
+            const allUserStories = getDB("stories", SEED_STORIES).filter(s => s.userId === profileUser.id);
+            const myActiveStories = allUserStories.filter(s => isStoryActive(s.createdAt));
+            const myHighlights = getDB("highlights", SEED_HIGHLIGHTS).filter(h => h.userId === profileUser.id);
+            const myProjects = getDB("projects", SEED_PROJECTS).filter(p => p.userId === profileUser.id);
+
+            const followersCount = (profileUser.followers || []).length;
+            const followingCount = (profileUser.following || []).length;
+
+            container.innerHTML = `
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 space-y-6 shadow-sm transition-colors">
+                    <!-- PROFILE HEADER / INSTAGRAM STYLE -->
+                    <div class="flex flex-col md:flex-row items-center md:items-start gap-6 border-b border-gray-100 dark:border-gray-700 pb-6">
+                        <!-- AVATAR WITH STORY BORDER IF ACTIVE -->
+                        <div class="relative cursor-pointer" onclick="${myActiveStories.length > 0 ? `viewStory('${myActiveStories[0].id}')` : (isOwnProfile ? 'openStoryModal()' : '')}">
+                            <div class="w-24 h-24 md:w-28 md:h-28 rounded-full p-1 ${myActiveStories.length > 0 ? 'bg-gradient-to-tr from-yellow-400 to-senai-red' : 'border-2 border-gray-200 dark:border-gray-600'}">
+                                <img src="${profileUser.avatar}" class="w-full h-full rounded-full object-cover border-2 border-white dark:border-gray-800">
+                            </div>
+                            ${isOwnProfile ? `
+                                <button onclick="event.stopPropagation(); openStoryModal()" class="absolute bottom-1 right-1 bg-senai-red text-white w-7 h-7 rounded-full flex items-center justify-center border-2 border-white dark:border-gray-800 hover:bg-senai-darkRed transition shadow">
+                                    <i class="fa-solid fa-plus text-xs"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+
+                        <!-- PROFILE DETAILS & STATS -->
+                        <div class="flex-1 text-center md:text-left space-y-3">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                                <div>
+                                    <h2 class="text-2xl font-black text-gray-900 dark:text-white leading-tight">${profileUser.fullname}</h2>
+                                    <p class="text-xs font-bold text-senai-red dark:text-red-400">@${profileUser.username}</p>
+                                </div>
+                                <div class="flex justify-center gap-2">
+                                    ${isOwnProfile ? `
+                                        <button onclick="openStoryModal()" class="bg-senai-red hover:bg-senai-darkRed text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center space-x-1.5 shadow transition">
+                                            <i class="fa-solid fa-circle-plus"></i>
+                                            <span>Postar Story</span>
+                                        </button>
+                                        <button onclick="openEditProfileModal()" class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-bold px-4 py-2 rounded-xl text-xs flex items-center space-x-1.5 transition">
+                                            <i class="fa-solid fa-pen"></i>
+                                            <span>Editar Perfil</span>
+                                        </button>
+                                    ` : `
+                                        <button onclick="toggleFollowUser('${profileUser.id}')" class="px-5 py-2 rounded-xl text-xs font-bold transition shadow ${isFollowing ? 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-red-100 hover:text-senai-red' : 'bg-senai-red hover:bg-senai-darkRed text-white'}">
+                                            ${isFollowing ? 'Seguindo' : 'Seguir Perfil'}
+                                        </button>
+                                    `}
+                                </div>
+                            </div>
+
+                            <!-- STATS COUNTER -->
+                            <div class="flex justify-center md:justify-start space-x-6 text-xs text-gray-600 dark:text-gray-400 border-y border-gray-100 dark:border-gray-700 py-2">
+                                <div><b class="text-gray-900 dark:text-white text-sm">${myActivePosts.length}</b> publicações</div>
+                                <div><b class="text-gray-900 dark:text-white text-sm">${followersCount}</b> seguidores</div>
+                                <div><b class="text-gray-900 dark:text-white text-sm">${followingCount}</b> seguindo</div>
+                            </div>
+
+                            <!-- BIO & COURSE -->
+                            <div class="text-xs text-gray-700 dark:text-gray-300 space-y-1">
+                                <p class="font-semibold text-gray-900 dark:text-white"><i class="fa-solid fa-graduation-cap text-senai-red dark:text-red-400 mr-1"></i>${profileUser.course} (${profileUser.duration})</p>
+                                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">${escapeHtml(profileUser.bio)}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DESTAQUES DO PERFIL (HIGHLIGHTS) -->
+                    <div class="space-y-2 border-b border-gray-100 dark:border-gray-700 pb-4">
+                        <h4 class="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Destaques da Conta</h4>
+                        <div class="flex items-center space-x-4 overflow-x-auto custom-scrollbar pb-1">
+                            ${isOwnProfile ? `
+                                <!-- BOTÃO NOVO DESTAQUE -->
+                                <div onclick="openHighlightModal()" class="flex flex-col items-center cursor-pointer flex-shrink-0 group">
+                                    <div class="w-14 h-14 rounded-full border-2 border-gray-300 dark:border-gray-600 flex items-center justify-center bg-gray-50 dark:bg-gray-700 group-hover:border-senai-red group-hover:bg-red-50 dark:group-hover:bg-red-900/30 transition">
+                                        <i class="fa-solid fa-plus text-gray-500 dark:text-gray-400 group-hover:text-senai-red text-base"></i>
+                                    </div>
+                                    <span class="text-[10px] font-semibold text-gray-600 dark:text-gray-400 mt-1">Novo</span>
+                                </div>
+                            ` : ''}
+
+                            <!-- LISTA DE DESTAQUES SALVOS -->
+                            ${myHighlights.length === 0 && !isOwnProfile ? '<p class="text-xs text-gray-400 italic py-2">Nenhum destaque salvo.</p>' : ''}
+                            ${myHighlights.map(hl => {
+                                const targetStory = allUserStories.find(s => s.id === hl.storyId);
+                                const coverImg = targetStory && targetStory.image ? targetStory.image : profileUser.avatar;
+                                return `
+                                    <div onclick="viewStory('${hl.storyId}')" class="flex flex-col items-center cursor-pointer flex-shrink-0 group">
+                                        <div class="w-14 h-14 rounded-full p-0.5 border-2 border-senai-red/60 group-hover:border-senai-red transition">
+                                            <img src="${coverImg}" class="w-full h-full rounded-full object-cover">
+                                        </div>
+                                        <span class="text-[10px] font-medium text-gray-800 dark:text-gray-200 mt-1 truncate w-14 text-center">${escapeHtml(hl.title)}</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+
+                    ${isOwnProfile ? `
+                        <!-- PROFILE CREATE POST BOX -->
+                        <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl border border-gray-200 dark:border-gray-600 space-y-3">
+                            <div class="flex space-x-3">
+                                <img src="${currentUser.avatar}" class="w-10 h-10 rounded-full object-cover border border-senai-red flex-shrink-0">
+                                <div class="flex-1 space-y-3">
+                                    <textarea id="profile-post-text" rows="2" class="w-full p-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl text-xs dark:text-white focus:ring-2 focus:ring-senai-red focus:outline-none resize-none" placeholder="Criar nova publicação no perfil e no feed..."></textarea>
+                                    
+                                    <div id="profile-post-image-preview-container" class="hidden relative rounded-xl overflow-hidden max-h-60 border border-gray-200 dark:border-gray-600 bg-black/5 flex items-center justify-center">
+                                        <img id="profile-post-image-preview" src="" class="max-h-60 w-full object-contain">
+                                        <button onclick="removeProfilePostAttachedImage()" class="absolute top-2 right-2 bg-gray-900/80 text-white w-6 h-6 rounded-full text-xs">✕</button>
+                                    </div>
+
+                                    <div class="flex items-center justify-between pt-1">
+                                        <label class="cursor-pointer text-gray-600 dark:text-gray-300 hover:text-senai-red flex items-center space-x-1.5 text-xs font-semibold bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 px-3 py-1.5 rounded-lg">
+                                            <i class="fa-solid fa-image text-senai-red dark:text-red-400"></i>
+                                            <span>Anexar Foto/Vídeo</span>
+                                            <input type="file" accept="image/*" class="hidden" onchange="handleProfilePostImageSelect(event)">
+                                        </label>
+                                        <button onclick="submitProfileNewPost()" class="bg-senai-red hover:bg-senai-darkRed text-white font-bold px-4 py-1.5 rounded-xl text-xs transition shadow">Publicar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <!-- SUB TABS (POSTS / STORIES / PROJETOS / ARQUIVADOS) -->
+                    <div class="flex border-b border-gray-200 dark:border-gray-700 text-xs font-bold text-gray-500 dark:text-gray-400 overflow-x-auto custom-scrollbar">
+                        <button onclick="switchProfileSubTab('posts')" class="flex-1 py-3 text-center border-b-2 min-w-[100px] ${profileSubTab === 'posts' ? 'border-senai-red text-senai-red dark:text-red-400' : 'border-transparent hover:text-gray-800 dark:hover:text-gray-200'} transition flex items-center justify-center space-x-1.5">
+                            <i class="fa-solid fa-table-cells"></i>
+                            <span>Publicações (${myActivePosts.length})</span>
+                        </button>
+                        ${isOwnProfile ? `
+                            <button onclick="switchProfileSubTab('archived')" class="flex-1 py-3 text-center border-b-2 min-w-[100px] ${profileSubTab === 'archived' ? 'border-senai-red text-senai-red dark:text-red-400' : 'border-transparent hover:text-gray-800 dark:hover:text-gray-200'} transition flex items-center justify-center space-x-1.5">
+                                <i class="fa-solid fa-box-archive"></i>
+                                <span>Arquivados (${myArchivedPosts.length})</span>
+                            </button>
+                        ` : ''}
+                        <button onclick="switchProfileSubTab('stories')" class="flex-1 py-3 text-center border-b-2 min-w-[100px] ${profileSubTab === 'stories' ? 'border-senai-red text-senai-red dark:text-red-400' : 'border-transparent hover:text-gray-800 dark:hover:text-gray-200'} transition flex items-center justify-center space-x-1.5">
+                            <i class="fa-solid fa-circle-notch"></i>
+                            <span>Stories (${allUserStories.length})</span>
+                        </button>
+                        <button onclick="switchProfileSubTab('projects')" class="flex-1 py-3 text-center border-b-2 min-w-[100px] ${profileSubTab === 'projects' ? 'border-senai-red text-senai-red dark:text-red-400' : 'border-transparent hover:text-gray-800 dark:hover:text-gray-200'} transition flex items-center justify-center space-x-1.5">
+                            <i class="fa-solid fa-diagram-project"></i>
+                            <span>Projetos (${myProjects.length})</span>
+                        </button>
+                    </div>
+
+                    <!-- SUB TAB CONTENT -->
+                    <div>
+                        ${profileSubTab === 'posts' ? `
+                            <div class="space-y-4">
+                                ${myActivePosts.length === 0 ? '<p class="text-xs text-gray-400 text-center py-8">Nenhuma publicação efetuada ainda.</p>' : ''}
+                                ${myActivePosts.map(post => {
+                                    const isLiked = currentUser && post.likes && post.likes.includes(currentUser.id);
+                                    const likesCount = (post.likes || []).length;
+                                    const commentsCount = (post.comments || []).length;
+                                    return `
+                                        <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-2xl border border-gray-200 dark:border-gray-700 space-y-3 text-xs relative">
+                                            <div class="flex justify-between items-center text-gray-400">
+                                                <span class="font-bold text-gray-900 dark:text-white">${profileUser.fullname}</span>
+                                                <div class="flex items-center space-x-2">
+                                                    <span>${formatDate(post.createdAt)}</span>
+                                                    ${isOwnProfile ? `
+                                                        <div class="relative">
+                                                            <button onclick="togglePostOptionsMenu('${post.id}', event)" class="post-options-btn text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-1">
+                                                                <i class="fa-solid fa-ellipsis-vertical text-sm"></i>
+                                                            </button>
+                                                            <div id="post-dropdown-${post.id}" class="post-options-dropdown hidden absolute right-0 top-6 w-44 bg-white dark:bg-gray-700 rounded-xl shadow-xl border border-gray-100 dark:border-gray-600 py-1 z-30 font-semibold text-gray-700 dark:text-gray-200">
+                                                                <button onclick="archivePost('${post.id}')" class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center space-x-2">
+                                                                    <i class="fa-solid fa-box-archive text-yellow-500"></i>
+                                                                    <span>Arquivar Post</span>
+                                                                </button>
+                                                                <button onclick="deletePost('${post.id}')" class="w-full text-left px-4 py-2 hover:bg-red-50 dark:hover:bg-red-900/30 text-senai-red dark:text-red-400 flex items-center space-x-2">
+                                                                    <i class="fa-solid fa-trash-can"></i>
+                                                                    <span>Apagar Post</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    ` : ''}
+                                                </div>
+                                            </div>
+                                            <p class="text-gray-800 dark:text-gray-200 text-sm">${escapeHtml(post.text)}</p>
+                                            ${post.image ? `
+                                                <div class="bg-black/5 dark:bg-black/30 rounded-xl overflow-hidden max-h-[450px] flex items-center justify-center">
+                                                    <img src="${post.image}" class="max-h-[450px] w-full object-contain">
+                                                </div>
+                                            ` : ''}
+                                            
+                                            <div class="flex items-center space-x-6 border-t border-gray-200 dark:border-gray-700 pt-2 text-xs">
+                                                <button onclick="toggleLikePost('${post.id}')" class="flex items-center space-x-1 font-semibold ${isLiked ? 'text-senai-red dark:text-red-400' : 'text-gray-500 dark:text-gray-400'}">
+                                                    <i class="${isLiked ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+                                                    <span>${likesCount} Curtida(s)</span>
+                                                </button>
+                                                <button onclick="toggleCommentsBox('${post.id}')" class="flex items-center space-x-1 font-semibold text-gray-500 dark:text-gray-400 hover:text-senai-red">
+                                                    <i class="fa-regular fa-comment"></i>
+                                                    <span>${commentsCount} Comentário(s)</span>
+                                                </button>
+                                            </div>
+
+                                            <!-- COMMENTS SECTION IN PROFILE -->
+                                            <div id="comments-box-${post.id}" class="space-y-3 pt-2">
+                                                <div class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
+                                                    ${commentsCount === 0 ? '<p class="text-[11px] text-gray-400 italic">Nenhum comentário ainda.</p>' : ''}
+                                                    ${(post.comments || []).map(c => {
+                                                        const cAuthor = users.find(u => u.id === c.userId) || { fullname: "Aluno SENAI" };
+                                                        return `
+                                                            <div class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border dark:border-gray-700 text-xs space-y-1">
+                                                                <div class="flex justify-between items-center">
+                                                                    <span class="font-bold text-gray-800 dark:text-gray-200">${cAuthor.fullname}</span>
+                                                                    <span class="text-[9px] text-gray-400">${formatDate(c.createdAt)}</span>
+                                                                </div>
+                                                                <p class="text-gray-700 dark:text-gray-300">${escapeHtml(c.text)}</p>
+                                                            </div>
+                                                        `;
+                                                    }).join('')}
+                                                </div>
+                                                <div class="flex space-x-2">
+                                                    <input type="text" id="comment-input-${post.id}" placeholder="Escreva um comentário..." class="flex-1 p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl text-xs dark:text-white focus:ring-1 focus:ring-senai-red focus:outline-none">
+                                                    <button onclick="submitComment('${post.id}')" class="bg-senai-red text-white font-bold px-3 py-1.5 rounded-xl text-xs transition">
+                                                        Comentar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        ` : ''}
+
+                        ${profileSubTab === 'archived' ? `
+                            <div class="space-y-4">
+                                ${myArchivedPosts.length === 0 ? '<p class="text-xs text-gray-400 text-center py-8">Você não possui publicações arquivadas.</p>' : ''}
+                                ${myArchivedPosts.map(post => `
+                                    <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-2xl border border-gray-200 dark:border-gray-700 space-y-3 text-xs opacity-90">
+                                        <div class="flex justify-between items-center text-gray-400">
+                                            <span class="bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-0.5 rounded-full"><i class="fa-solid fa-box-archive mr-1"></i>Arquivado</span>
+                                            <span>${formatDate(post.createdAt)}</span>
+                                        </div>
+                                        <p class="text-gray-800 dark:text-gray-200 text-sm">${escapeHtml(post.text)}</p>
+                                        ${post.image ? `
+                                            <div class="bg-black/5 dark:bg-black/30 rounded-xl overflow-hidden max-h-[300px] flex items-center justify-center">
+                                                <img src="${post.image}" class="max-h-[300px] w-full object-contain">
+                                            </div>
+                                        ` : ''}
+                                        <div class="flex justify-end space-x-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+                                            <button onclick="archivePost('${post.id}')" class="bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 text-gray-800 dark:text-gray-200 font-bold px-3 py-1.5 rounded-xl text-xs transition">
+                                                Desarquivar
+                                            </button>
+                                            <button onclick="deletePost('${post.id}')" class="bg-senai-red hover:bg-senai-darkRed text-white font-bold px-3 py-1.5 rounded-xl text-xs transition">
+                                                Apagar
+                                            </button>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+
+                        ${profileSubTab === 'stories' ? `
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                ${allUserStories.length === 0 ? '<p class="col-span-full text-xs text-gray-400 text-center py-8">Nenhum story postado no histórico.</p>' : ''}
+                                ${allUserStories.map(story => {
+                                    const active = isStoryActive(story.createdAt);
+                                    return `
+                                        <div onclick="viewStory('${story.id}')" class="relative bg-gray-900 h-40 rounded-xl overflow-hidden cursor-pointer group shadow border ${active ? 'border-senai-red' : 'border-gray-300 dark:border-gray-700 opacity-70'} flex items-center justify-center">
+                                            ${story.image ? `<img src="${story.image}" class="w-full h-full object-contain opacity-80 group-hover:scale-105 transition duration-300">` : ''}
+                                            <div class="absolute inset-0 bg-black/40 p-3 flex flex-col justify-between">
+                                                <div class="flex justify-between items-center">
+                                                    <span class="text-[9px] text-white/80">${formatDate(story.createdAt)}</span>
+                                                    <span class="text-[8px] font-bold px-1.5 py-0.5 rounded ${active ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-300'}">${active ? 'Ativo 24h' : 'Expirado'}</span>
+                                                </div>
+                                                <p class="text-xs text-white font-medium line-clamp-2">${escapeHtml(story.text)}</p>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        ` : ''}
+
+                        ${profileSubTab === 'projects' ? `
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                ${myProjects.length === 0 ? '<p class="col-span-full text-xs text-gray-400 text-center py-8">Nenhum projeto no portfólio.</p>' : ''}
+                                ${myProjects.map(p => `
+                                    <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-xl border border-gray-200 dark:border-gray-600 text-xs space-y-1">
+                                        <h4 class="font-bold text-gray-900 dark:text-white">${escapeHtml(p.title)}</h4>
+                                        <span class="bg-red-100 dark:bg-red-900/40 text-senai-red dark:text-red-300 text-[9px] font-bold px-2 py-0.5 rounded">${p.techs}</span>
+                                        <p class="text-gray-600 dark:text-gray-300 line-clamp-2 pt-1">${escapeHtml(p.desc)}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function formatDate(isoString) {
+            if (!isoString) return "Há pouco";
+            return new Date(isoString).toLocaleDateString('pt-BR');
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+    </script>
+</body>
+</html>
